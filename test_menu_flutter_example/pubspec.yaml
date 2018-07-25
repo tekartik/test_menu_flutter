@@ -33,6 +33,8 @@ dev_dependencies:
 dependency_overrides:
   tekartik_test_menu_flutter:
     path: ../test_menu_flutter
+  tekartik_test_menu:
+    path: ../../test_menu.dart/test_menu
   # temp pre-dart2 override
   collection: '>=1.14.6'
 

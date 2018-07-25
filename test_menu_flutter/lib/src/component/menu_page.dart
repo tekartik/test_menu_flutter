@@ -1,11 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:tekartik_test_menu_flutter/src/component/main_item_widget.dart';
-import 'package:tekartik_test_menu_flutter/src/model/main_item.dart';
+import 'package:tekartik_test_menu_flutter/src/model/item.dart';
 
 class MenuPage extends StatefulWidget {
-  final List<MainItem> items;
+  final List<BaseItem> items;
 
   MenuPage({Key key, this.title, this.items}) : super(key: key);
 
@@ -51,6 +48,7 @@ class MenuPageState extends State<MenuPage> {
   //new Center(child: new Text('Running on: $_platformVersion\n')),
 
   Widget _itemBuilder(BuildContext context, int index) {
+    /*
     return new MainItemWidget(widget.items[index], (MainItem item) {
       if (item is PageItem) {
         Navigator
@@ -64,5 +62,9 @@ class MenuPageState extends State<MenuPage> {
         }
       }
     });
+    TimeOfDayFormat.HH_dot_m
+    TODO
+    */
+    return null;
   }
 }

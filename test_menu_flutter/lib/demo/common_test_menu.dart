@@ -1,7 +1,7 @@
 import 'package:tekartik_common_utils/async_utils.dart';
-import 'package:tekartik_test_menu/test_menu.dart';
-//import 'package:tekartik_test_menu/src/common.dart';
+import 'package:tekartik_test_menu/test.dart';
 
+//import 'package:tekartik_test_menu/src/common.dart';
 // basic "0;-"
 main() async {
   menu('common', () {
@@ -34,6 +34,19 @@ main() async {
       }
     });
 
+    group('group', () {
+      test('test fail', () {
+        fail('failure');
+      });
+      test("sleep 1000", () async {
+        write('before sleep');
+        await sleep(1000);
+        write('after sleep 1000');
+      });
+      test('test success', () {
+        expect(true, isTrue);
+      });
+    });
     menu('slow_sub', () {
       enter(() async {
         write('enter sub');

@@ -6,6 +6,7 @@ export 'src/model/main_item.dart';
 */
 export 'src/test_menu_manager_flutter.dart'
     show
+        mainMenu,
         initTestMenuFlutter,
         solo_item,
         item,
