@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:synchronized/synchronized.dart';
-import 'package:tekartik_common_utils/dev_utils.dart';
+//import 'package:tekartik_common_utils/dev_utils.dart';
 // ignore: implementation_imports
 import 'package:tekartik_test_menu/src/test_menu/test_menu.dart';
 // ignore: implementation_imports
@@ -27,13 +27,13 @@ class MenuItems extends StatefulWidget {
 }
 
 class MenuItemsState extends State<MenuItems> {
-  get _itemCount => widget.items?.length ?? 0;
+  int get _itemCount => widget.items?.length ?? 0;
 
   final _lock = Lock();
 
   @override
   initState() {
-    devPrint('MenuItemsState.initState');
+    // devPrint('MenuItemsState.initState');
     super.initState();
   }
 
@@ -76,7 +76,7 @@ class MenuItemsState extends State<MenuItems> {
       });
     } else */
     if (item is Item) {
-      devPrint('item widget ${item}');
+      // devPrint('item widget ${item}');
       new Future.value().then((_) {
         _runIfTest(item);
       });
@@ -90,7 +90,7 @@ class MenuItemsState extends State<MenuItems> {
         */
       });
     } else if (item is Menu) {
-      devPrint('menu widget ${item}');
+      // devPrint('menu widget ${item}');
       new Future.value().then((_) {
         _runIfGroup(item);
       });
@@ -116,13 +116,13 @@ class MenuItemsState extends State<MenuItems> {
 
   _enterMenu(Menu menu) async {
     var testItem = menu.testItem;
-    devPrint('running $testItem');
+    // devPrint('running $testItem');
     await testMenuManager.runItem(testItem);
-    devPrint('done $testItem');
+    // devPrint('done $testItem');
   }
 
   _runGroup(Menu menu) async {
-    devPrint("_runGroup");
+    // devPrint("_runGroup");
     int count = 0;
     int successCount = 0;
     dynamic firstError;
@@ -131,9 +131,9 @@ class MenuItemsState extends State<MenuItems> {
       for (var item in testMenu.items) {
         if (item is MenuTestItem) {
           _addMenu(item.menu, run);
-          devPrint(item);
+          // devPrint(item);
         } else if (item is RunnableTestItem) {
-          devPrint(item);
+          // devPrint(item);
           count++;
           if (run) {
             print("#TEST Running ${item.name}");
@@ -151,7 +151,7 @@ class MenuItemsState extends State<MenuItems> {
 
     setState(() {
       menu.state = ItemState.running;
-      devPrint('running item widget ${menu}');
+      // devPrint('running item widget ${menu}');
     });
 
     try {
@@ -163,10 +163,10 @@ class MenuItemsState extends State<MenuItems> {
       }
       setState(() {
         menu.state = ItemState.success;
-        devPrint('success menu widget ${menu}');
+        // devPrint('success menu widget ${menu}');
       });
       write('Ran tests $successCount/$totalCount');
-    } catch (e, st) {
+    } catch (e) {
       print("TEST Error $e running ${menu.name}");
       try {
         //print(st);
@@ -177,7 +177,7 @@ class MenuItemsState extends State<MenuItems> {
       } finally {
         setState(() {
           menu..state = ItemState.failure;
-          devPrint('failure menu widget ${menu}');
+          // devPrint('failure menu widget ${menu}');
         });
       }
     }
@@ -186,7 +186,7 @@ class MenuItemsState extends State<MenuItems> {
   _run(Item item) async {
     setState(() {
       item.state = ItemState.running;
-      devPrint('running item widget ${item}');
+      // devPrint('running item widget ${item}');
     });
     try {
       print("#TEST Running ${item.name}");
@@ -196,9 +196,9 @@ class MenuItemsState extends State<MenuItems> {
       //item = new Item("${item.name}")..state = ItemState.success;
       setState(() {
         item.state = ItemState.success;
-        devPrint('success item widget ${item}');
+        // devPrint('success item widget ${item}');
       });
-    } catch (e, st) {
+    } catch (e) {
       print("TEST Error $e running ${item.name}");
       try {
         //print(st);
@@ -209,7 +209,7 @@ class MenuItemsState extends State<MenuItems> {
       } finally {
         setState(() {
           item..state = ItemState.failure;
-          devPrint('failure item widget ${item}');
+          // devPrint('failure item widget ${item}');
         });
       }
     }

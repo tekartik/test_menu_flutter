@@ -7,7 +7,7 @@ import 'package:tekartik_test_menu_flutter/test_menu_flutter.dart';
 
 void main() {
   mainMenu(() {
-    devPrint('MAIN_');
+    //devPrint('MAIN_');
     item('item2', () {
       write('item');
     });

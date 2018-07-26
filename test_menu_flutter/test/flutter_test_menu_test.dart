@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tekartik_test_menu_flutter/src/component/menu_page.dart';
-import 'package:tekartik_test_menu_flutter/src/model/main_item.dart';
-import 'package:test/test.dart';
 
 class SubPage extends StatelessWidget {
   @override

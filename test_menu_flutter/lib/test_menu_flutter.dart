@@ -8,6 +8,7 @@ export 'src/test_menu_manager_flutter.dart'
     show
         mainMenu,
         initTestMenuFlutter,
+        // ignore: deprecated_member_use
         solo_item,
         item,
         menu,

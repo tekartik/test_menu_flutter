@@ -30,7 +30,7 @@ class MenuPageRoute extends MaterialPageRoute {
 }
 
 class MenuPageState extends State<MenuPage> {
-  get _itemCount => widget.items?.length ?? 0;
+  int get _itemCount => widget.items?.length ?? 0;
 
   @override
   initState() {

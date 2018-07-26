@@ -1,3 +1,4 @@
+// ignore: implementation_imports
 import 'package:tekartik_test_menu/src/test_menu/test_menu.dart';
 
 enum ItemState { idle, running, success, failure }
@@ -21,7 +22,7 @@ class Item extends BaseItem {
 
   @override
   String toString() {
-    return "$state ${testItem}${test == true ? ' test' : ''}";
+    return "$state $testItem${test == true ? ' test' : ''}";
   }
 }
 /*
