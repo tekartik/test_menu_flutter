@@ -1,6 +1,6 @@
 name: tekartik_test_menu_flutter
 description: Flutter test menu
-version: 0.1.0
+version: 0.2.0
 author:
 homepage:
 
@@ -22,8 +22,8 @@ dev_dependencies:
       path: test_menu_io
 
 dependency_overrides:
-  tekartik_test_menu:
-    path: ../../test_menu.dart/test_menu
+#  tekartik_test_menu:
+#    path: ../../test_menu.dart/test_menu
   # temp pre-dart2 override
   collection: '>=1.14.6'
 # For information on the generic Dart part of this file, see the

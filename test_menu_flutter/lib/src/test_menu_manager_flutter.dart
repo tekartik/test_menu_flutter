@@ -416,6 +416,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
         ));
       }
 
+      bool atRoot = menu?.name == null;
       return new WillPopScope(
           // onWillPop: () async => true,
 
@@ -445,6 +446,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
           },
           child: new Scaffold(
               appBar: new AppBar(
+                leading: atRoot ? null : BackButton(),
                 title: new Text(menu?.name ?? "MAIN"),
                 actions: actions,
               ),
