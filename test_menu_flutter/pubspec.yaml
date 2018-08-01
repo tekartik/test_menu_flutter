@@ -1,6 +1,6 @@
 name: tekartik_test_menu_flutter
 description: Flutter test menu
-version: 0.2.0
+version: 0.2.1
 author:
 homepage:
 
@@ -13,6 +13,7 @@ dependencies:
       url: git://github.com/tekartik/test_menu.dart
       ref: dart2
       path: test_menu
+    version: '>=0.5.1'
 dev_dependencies:
   test: '>=0.12.0'
   tekartik_test_menu_io:

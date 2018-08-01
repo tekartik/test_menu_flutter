@@ -1,20 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tekartik_test_menu_flutter/src/component/menu_page.dart';
+import 'package:tekartik_test_menu_flutter/src/test_menu_manager_flutter.dart';
 
 class SubPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MenuPage(title: 'Sub menu', items: [
-      /*
-      new MainItem("Show toast", "Simple snackbar at the bottom",
-          action: (BuildContext context) {
-        Scaffold.of(context).showSnackBar(new SnackBar(
-              content: new Text("Sending Message"),
-            ));
-
-      })
-    */
-    ]);
+    return new RootMenuPage();
   }
 }
 

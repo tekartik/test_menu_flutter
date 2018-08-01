@@ -9,7 +9,6 @@ import 'package:tekartik_test_menu/src/test_menu/test_menu_manager.dart';
 import 'package:tekartik_test_menu/test_menu_presenter.dart';
 import 'package:tekartik_test_menu_flutter/src/component/common_import.dart';
 import 'package:tekartik_test_menu_flutter/src/component/menu_items.dart';
-import 'package:tekartik_test_menu_flutter/src/component/menu_page.dart';
 import 'package:tekartik_test_menu_flutter/src/model/item.dart';
 
 export 'package:tekartik_test_menu/test_menu.dart';
@@ -452,7 +451,11 @@ class _RootMenuPageState extends State<RootMenuPage> {
               ),
               body: column));
     }
-    return new MenuPage(title: 'Test menu example');
+    return new Scaffold(
+        appBar: new AppBar(
+          title: new Text('Not found'),
+        ),
+        );
   }
 
   void runTests() {

@@ -155,8 +155,8 @@ class MenuItemsState extends State<MenuItems> {
     });
 
     try {
-      await _addMenu(menu.menuTestItem.menu, false);
-      int totalCount = count;
+      //await _addMenu(menu.menuTestItem.menu, false);
+
       await _addMenu(menu.menuTestItem.menu, true);
       if (firstError != null) {
         throw firstError;
@@ -165,8 +165,9 @@ class MenuItemsState extends State<MenuItems> {
         menu.state = ItemState.success;
         // devPrint('success menu widget ${menu}');
       });
-      write('Ran tests $successCount/$totalCount');
+      write('SUCCESS tests $successCount/$count');
     } catch (e) {
+      write('ERROR tests $successCount/$count');
       print("TEST Error $e running ${menu.name}");
       try {
         //print(st);
