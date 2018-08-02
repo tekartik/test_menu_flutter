@@ -452,10 +452,10 @@ class _RootMenuPageState extends State<RootMenuPage> {
               body: column));
     }
     return new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Not found'),
-        ),
-        );
+      appBar: new AppBar(
+        title: new Text('Not found'),
+      ),
+    );
   }
 
   void runTests() {

@@ -10,6 +10,8 @@ export 'src/test_menu_manager_flutter.dart'
         initTestMenuFlutter,
         // ignore: deprecated_member_use
         solo_item,
+        // ignore: deprecated_member_use
+        solo_menu,
         item,
         menu,
         write,

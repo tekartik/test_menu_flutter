@@ -3,7 +3,7 @@ import 'package:tekartik_test_menu_flutter/test.dart';
 void main() {
   initTestMenuFlutter();
 
-  group('super', ()  {
+  group('super', () {
     group('failure', () {
       test('failure', () {
         write('failure');
@@ -21,5 +21,4 @@ void main() {
       });
     });
   });
-
 }

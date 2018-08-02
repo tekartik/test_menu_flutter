@@ -13,10 +13,6 @@ void main() {
     fail('fail');
   });
   */
-  test('success', () {
-    expect(true, isTrue);
-  });
-
   group('group', () {
     test('success', () {
       expect(true, isTrue);
@@ -47,10 +43,22 @@ void main() {
       write('success');
     });
   });
-  group('group', () {
+  menu('group', () {
+    test('failure', () {
+      fail('failure');
+    });
+
+    test('expect_failure', () {
+      write('failure');
+      expect(true, isFalse);
+    });
     test('success', () {
       expect(true, isTrue);
       write('success');
+    });
+
+    test('throw', () {
+      throw 'error thrown';
     });
   });
   item('root_item', () {
