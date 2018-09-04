@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:func/func.dart';
 import '../model/item.dart';
 
 class ItemWidget extends StatefulWidget {
   final Item item;
-  final VoidFunc1<Item> onTap; // = Function(MainItem item);
+  final void Function(Item item) onTap; // = Function(MainItem item);
   ItemWidget(this.item, this.onTap);
   @override
   _ItemWidgetState createState() => new _ItemWidgetState();

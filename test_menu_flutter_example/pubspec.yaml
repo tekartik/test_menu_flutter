@@ -9,6 +9,9 @@ description: A new Flutter project.
 # Read more about versioning at semver.org.
 version: 1.0.0+1
 
+environment:
+  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+
 dependencies:
   flutter:
     sdk: flutter
@@ -21,7 +24,7 @@ dependencies:
       url: git://github.com/tekartik/test_menu_flutter
       ref: dart2
       path: test_menu_flutter
-    version: '>=0.2.1'
+    version: '>=0.2.3'
 
 dev_dependencies:
   flutter_test:
@@ -37,7 +40,7 @@ dependency_overrides:
 #  tekartik_test_menu:
 #    path: ../../test_menu.dart/test_menu
   # temp pre-dart2 override
-  collection: '>=1.14.6'
+#  collection: '>=1.14.6'
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

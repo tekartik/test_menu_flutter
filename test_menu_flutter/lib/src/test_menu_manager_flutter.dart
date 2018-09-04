@@ -186,9 +186,10 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
   }
 }
 
-void initTestMenuFlutter({Widget builder(Widget child)}) {
+void initTestMenuFlutter({Widget builder(Widget child), bool showConsole}) {
   //TestMenuManager.debug.on = true;
-  _testMenuManagerFlutter = new _TestMenuManagerFlutter();
+  _testMenuManagerFlutter = new _TestMenuManagerFlutter()
+    ..showConsole = showConsole == true;
   //_testMenuManagerFlutter.builder = builder;
 
   Widget app = new TestMenuApp();
@@ -202,22 +203,24 @@ void initTestMenuFlutter({Widget builder(Widget child)}) {
 
 _TestMenuManagerFlutter _testMenuManagerFlutter;
 
-void mainMenu(void body()) {
-  initTestMenuFlutter(builder: (Widget child) {
-    // _testMenuManagerFlutter.bodyBuilder = body;
-    return Builder(builder: (BuildContext context) {
-      // devPrint('Building tests');
-      body();
-      return child;
-    });
-    /*
+void mainMenu(void body(), {bool showConsole}) {
+  initTestMenuFlutter(
+      builder: (Widget child) {
+        // _testMenuManagerFlutter.bodyBuilder = body;
+        return Builder(builder: (BuildContext context) {
+          // devPrint('Building tests');
+          body();
+          return child;
+        });
+        /*
     if (builder != null) {
       app = builder(app);
     }
     runApp(app);
     body();
     */
-  });
+      },
+      showConsole: showConsole);
 }
 
 class TestMenuApp extends StatelessWidget {
