@@ -337,22 +337,25 @@ class _RootMenuPageState extends State<RootMenuPage> {
       if (_testMenuManagerFlutter.showConsole) {
         children2.add(Expanded(
             flex: 3,
-            child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Stack(children: <Widget>[
-                  SingleChildScrollView(
-                      reverse: true,
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              outputText,
-                              style: TextStyle(fontSize: 9.0),
-                              softWrap: true,
-                              overflow: TextOverflow.clip,
-                            )
-                          ]))
-                ]))));
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                      child: SingleChildScrollView(
+                          reverse: true,
+                          child: Column(children: <Widget>[
+                            Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  outputText,
+                                  style: TextStyle(fontSize: 9.0),
+                                  softWrap: true,
+                                  textAlign: TextAlign.left,
+                                  overflow: TextOverflow.clip,
+                                ))
+                          ])))
+                ])));
       }
       children2.add(Expanded(
           flex: 5,
