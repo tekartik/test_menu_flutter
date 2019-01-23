@@ -5,3 +5,10 @@
 .pub/
 packages
 pubspec.lock
+
+
+# Android local definition
+android/local.properties
+
+# iOS generated
+ios/Flutter/Generated.xcconfig

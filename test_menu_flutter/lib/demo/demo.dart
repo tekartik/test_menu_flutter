@@ -4,10 +4,9 @@ Widget demoSimpleList(BuildContext context, [int count]) {
   count ??= 50;
 
   Widget _itemBuilder(BuildContext context, int index) {
-    return new ListTile(
-        title: new Text("Title $index"),
-        subtitle: new Text("Long description $index"));
+    return ListTile(
+        title: Text("Title $index"), subtitle: Text("Long description $index"));
   }
 
-  return new ListView.builder(itemBuilder: _itemBuilder, itemCount: count);
+  return ListView.builder(itemBuilder: _itemBuilder, itemCount: count);
 }

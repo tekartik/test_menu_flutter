@@ -3,12 +3,12 @@ import 'package:tekartik_test_menu/test.dart';
 
 //import 'package:tekartik_test_menu/src/common.dart';
 // basic "0;-"
-main() async {
+void main() {
   menu('common', () {
-    item("write hola", () async {
+    item("write hola", () {
       write('Hola');
     });
-    item("write lorem lipsum", () async {
+    item("write lorem lipsum", () {
       write(
           "Sed gravida iaculis lectus, vel suscipit turpis malesuada sit amet. In maximus rutrum libero, eu porta nulla vehicula eu. Donec vel dictum neque, vitae aliquet velit. Fusce nec orci non diam dignissim tristique non sed est. Quisque venenatis a orci et venenatis.\n"
           "Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.");

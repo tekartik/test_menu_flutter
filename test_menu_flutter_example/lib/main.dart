@@ -29,9 +29,9 @@ void main() {
     });
     item('navigate', () {
       Navigator.push(buildContext,
-          new MaterialPageRoute(builder: (BuildContext context) {
-        return new Scaffold(
-            appBar: new AppBar(title: new Text("test")),
+          MaterialPageRoute(builder: (BuildContext context) {
+        return Scaffold(
+            appBar: AppBar(title: const Text("test")),
             body: demoSimpleList(context));
       }));
     });

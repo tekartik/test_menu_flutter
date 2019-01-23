@@ -4,7 +4,7 @@ import 'package:tekartik_test_menu_flutter/src/test_menu_manager_flutter.dart';
 class SubPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new RootMenuPage();
+    return RootMenuPage();
   }
 }
 

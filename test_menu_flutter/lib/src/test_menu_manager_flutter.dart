@@ -1,10 +1,10 @@
+// ignore_for_file: implementation_imports
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
-// ignore: implementation_imports
 import 'package:tekartik_test_menu/src/test_menu/test_menu.dart';
-// ignore: implementation_imports
 import 'package:tekartik_test_menu/src/test_menu/test_menu_manager.dart';
 import 'package:tekartik_test_menu/test_menu_presenter.dart';
 import 'package:tekartik_test_menu_flutter/src/component/common_import.dart';
@@ -32,7 +32,7 @@ Map<TestMenu, FlutterTestMenu> flutterTestMenuMap = {};
 
 class Prompt {
   final String message;
-  final Completer<String> _completer = new Completer<String>();
+  final Completer<String> _completer = Completer<String>();
 
   Prompt(this.message);
 
@@ -75,9 +75,9 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
   BaseItem newTestItemBase(TestItem testItem, {bool run}) {
     BaseItem item;
     if (testItem is RunnableTestItem) {
-      item = new Item(testItem, run != false);
+      item = Item(testItem, run != false);
     } else if (testItem is MenuTestItem) {
-      item = new Menu(testItem, run == true);
+      item = Menu(testItem, run == true);
     }
     testItemItems[testItem] = item;
     return item;
@@ -124,7 +124,7 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
       flutterTestMenuMap = cleanedMap;
 
       if (flutterTestMenu == null) {
-        flutterTestMenu = new FlutterTestMenu(testMenu);
+        flutterTestMenu = FlutterTestMenu(testMenu);
         flutterTestMenuMap[testMenu] = flutterTestMenu;
       }
 
@@ -141,7 +141,7 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
     processMenu(menu);
   }
 
-  _setOutput(List<String> output) {
+  void _setOutput(List<String> output) {
     onOutputChanged(output.join('\n'));
   }
 
@@ -157,6 +157,7 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
     _setOutput(output);
   }
 
+  @override
   void write(Object message) {
     print('[o] $message');
     output.add("$message");
@@ -169,11 +170,12 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
 
   List<String> output = [];
 
+  @override
   Future<String> prompt(Object message) async {
     // devPrint('Prompt: $message');
     write(message ?? "[Enter text]");
     message ??= "Enter text";
-    var prompt = new Prompt('$message');
+    var prompt = Prompt('$message');
     onPrompted(prompt);
     return await prompt.future;
     /*
@@ -188,11 +190,11 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
 
 void initTestMenuFlutter({Widget builder(Widget child), bool showConsole}) {
   //TestMenuManager.debug.on = true;
-  _testMenuManagerFlutter = new _TestMenuManagerFlutter()
+  _testMenuManagerFlutter = _TestMenuManagerFlutter()
     ..showConsole = showConsole == true;
   //_testMenuManagerFlutter.builder = builder;
 
-  Widget app = new TestMenuApp();
+  Widget app = TestMenuApp();
   if (builder != null) {
     app = builder(app);
   }
@@ -227,9 +229,9 @@ class TestMenuApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
       title: 'Test Menu',
-      theme: new ThemeData(
+      theme: ThemeData(
         // This is the theme of your application.
         //
         // Try running your application with "flutter run". You'll see the
@@ -281,33 +283,33 @@ class _RootMenuPageState extends State<RootMenuPage> {
   Widget build(BuildContext context) {
     _testMenuManagerFlutter.buildContext = context;
     _testMenuManagerFlutter.onPrompted = (Prompt prompt) {
-      _showDialog() async {
+      Future _showDialog() async {
         // devPrint('Show prompt $prompt');
         try {
           var result = await showDialog<String>(
             context: context,
             builder: (BuildContext context) {
-              return new AlertDialog(
+              return AlertDialog(
                 contentPadding: const EdgeInsets.all(16.0),
-                content: new Row(
+                content: Row(
                   children: <Widget>[
-                    new Expanded(
-                      child: new TextField(
+                    Expanded(
+                      child: TextField(
                         controller: promptController,
                         autofocus: true,
-                        decoration: new InputDecoration(
+                        decoration: InputDecoration(
                             labelText: prompt.message ?? '', hintText: ''),
                       ),
                     )
                   ],
                 ),
                 actions: <Widget>[
-                  new FlatButton(
+                  FlatButton(
                       child: const Text('CANCEL'),
                       onPressed: () {
                         Navigator.pop(context, null);
                       }),
-                  new FlatButton(
+                  FlatButton(
                       child: const Text('OPEN'),
                       onPressed: () {
                         Navigator.pop(context, promptController.value.text);
@@ -346,10 +348,10 @@ class _RootMenuPageState extends State<RootMenuPage> {
                           reverse: true,
                           child: Column(children: <Widget>[
                             Padding(
-                                padding: EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   outputText,
-                                  style: TextStyle(fontSize: 9.0),
+                                  style: const TextStyle(fontSize: 9.0),
                                   softWrap: true,
                                   textAlign: TextAlign.left,
                                   overflow: TextOverflow.clip,
@@ -360,7 +362,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
       children2.add(Expanded(
           flex: 5,
           child: MenuItems(
-              items: new List.generate(menu.items.length, (int index) {
+              items: List.generate(menu.items.length, (int index) {
             var testItem = menu.items[index];
             if (testItem is MenuTestItem) {
               return _testMenuManagerFlutter.getTestItemMenu(testItem);
@@ -422,7 +424,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
       }
 
       bool atRoot = menu?.name == null;
-      return new WillPopScope(
+      return WillPopScope(
           // onWillPop: () async => true,
 
           onWillPop: () async {
@@ -449,17 +451,17 @@ class _RootMenuPageState extends State<RootMenuPage> {
             */
             return false;
           },
-          child: new Scaffold(
-              appBar: new AppBar(
-                leading: atRoot ? null : BackButton(),
-                title: new Text(menu?.name ?? "MAIN"),
+          child: Scaffold(
+              appBar: AppBar(
+                leading: atRoot ? null : const BackButton(),
+                title: Text(menu?.name ?? "MAIN"),
                 actions: actions,
               ),
               body: column));
     }
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Not found'),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Not found'),
       ),
     );
   }

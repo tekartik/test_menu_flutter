@@ -1,19 +1,15 @@
+// ignore_for_file: implementation_imports
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:synchronized/synchronized.dart';
-//import 'package:tekartik_common_utils/dev_utils.dart';
-// ignore: implementation_imports
 import 'package:tekartik_test_menu/src/test_menu/test_menu.dart';
-// ignore: implementation_imports
 import 'package:tekartik_test_menu/src/test_menu/test_menu_manager.dart';
 import 'package:tekartik_test_menu/test_menu.dart';
 import 'package:tekartik_test_menu_flutter/src/component/item_widget.dart';
 import 'package:tekartik_test_menu_flutter/src/component/menu_item_widget.dart';
 import 'package:tekartik_test_menu_flutter/src/model/item.dart';
-
-// ignore: implementation_imports
-// ignore: implementation_imports
 
 class MenuItems extends StatefulWidget {
   final List<BaseItem> items;
@@ -23,7 +19,7 @@ class MenuItems extends StatefulWidget {
   final String title;
 
   @override
-  MenuItemsState createState() => new MenuItemsState();
+  MenuItemsState createState() => MenuItemsState();
 }
 
 class MenuItemsState extends State<MenuItems> {
@@ -32,7 +28,7 @@ class MenuItemsState extends State<MenuItems> {
   final _lock = Lock();
 
   @override
-  initState() {
+  void initState() {
     // devPrint('MenuItemsState.initState');
     super.initState();
   }
@@ -44,7 +40,7 @@ class MenuItemsState extends State<MenuItems> {
 
   //new Center(child: new Text('Running on: $_platformVersion\n')),
 
-  _runIfTest(Item item) {
+  void _runIfTest(Item item) {
     if (item.autoRun && item.test == true && item.state == ItemState.idle) {
       _lock.synchronized(() async {
         await _run(item);
@@ -52,7 +48,7 @@ class MenuItemsState extends State<MenuItems> {
     }
   }
 
-  _runIfGroup(Menu item) {
+  void _runIfGroup(Menu item) {
     if (item.autoRun && item.group == true && item.state == ItemState.idle) {
       _lock.synchronized(() async {
         await _runGroup(item);
@@ -77,10 +73,10 @@ class MenuItemsState extends State<MenuItems> {
     } else */
     if (item is Item) {
       // devPrint('item widget ${item}');
-      new Future.value().then((_) {
+      Future.value().then((_) {
         _runIfTest(item);
       });
-      return new ItemWidget(item, (_) async {
+      return ItemWidget(item, (_) async {
         // item.action();
         await _run(item);
         /*
@@ -91,10 +87,10 @@ class MenuItemsState extends State<MenuItems> {
       });
     } else if (item is Menu) {
       // devPrint('menu widget ${item}');
-      new Future.value().then((_) {
+      Future.value().then((_) {
         _runIfGroup(item);
       });
-      return new MenuItemWidget(
+      return MenuItemWidget(
         item,
         onTap: (_) async {
           // item.action();
@@ -114,14 +110,14 @@ class MenuItemsState extends State<MenuItems> {
     throw 'not supported $item ${item?.runtimeType}';
   }
 
-  _enterMenu(Menu menu) async {
+  Future _enterMenu(Menu menu) async {
     var testItem = menu.testItem;
     // devPrint('running $testItem');
     await testMenuManager.runItem(testItem);
     // devPrint('done $testItem');
   }
 
-  _runGroup(Menu menu) async {
+  Future _runGroup(Menu menu) async {
     // devPrint("_runGroup");
     int count = 0;
     int successCount = 0;
@@ -184,7 +180,7 @@ class MenuItemsState extends State<MenuItems> {
     }
   }
 
-  _run(Item item) async {
+  Future _run(Item item) async {
     setState(() {
       item.state = ItemState.running;
       // devPrint('running item widget ${item}');

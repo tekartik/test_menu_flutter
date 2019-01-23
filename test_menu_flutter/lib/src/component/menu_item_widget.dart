@@ -10,7 +10,7 @@ class MenuItemWidget extends StatefulWidget {
   MenuItemWidget(this.menu, {this.onTap, this.onPlay});
 
   @override
-  _MenuItemWidgetState createState() => new _MenuItemWidgetState();
+  _MenuItemWidgetState createState() => _MenuItemWidgetState();
 }
 
 class _MenuItemWidgetState extends State<MenuItemWidget> {
@@ -37,7 +37,7 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
     }
     var widgets = <Widget>[
       IconButton(
-        icon: new Icon(Icons.menu,
+        icon: Icon(Icons.menu,
             color: widget.menu.group ? Colors.black12 : Colors.grey),
 
         onPressed: null, // null disables the button
@@ -45,16 +45,16 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
     ];
     if (widget.menu.group) {
       widgets.add(Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
           child: IconButton(
-            icon: new Icon(icon, color: color),
+            icon: Icon(icon, color: color),
 
             onPressed: _onPlay, // null disables the button
           )));
     }
-    return new ListTile(
+    return ListTile(
         leading: Stack(children: widgets),
-        title: new Text(widget.menu.name),
+        title: Text(widget.menu.name),
         /*
         subtitle: widget.item?.description == null
             ? null

@@ -6,6 +6,7 @@ enum ItemState { idle, running, success, failure }
 abstract class BaseItem {
   final bool autoRun;
   final TestItem testItem;
+
   BaseItem(this.testItem, this.autoRun);
 
   String get name => testItem.name;
@@ -13,7 +14,9 @@ abstract class BaseItem {
 
 class Item extends BaseItem {
   RunnableTestItem get runnableTestItem => (testItem as RunnableTestItem);
+
   bool get test => runnableTestItem.test;
+
   dynamic Function() get action => (testItem as RunnableTestItem).fn;
 
   ItemState state = ItemState.idle;
@@ -36,7 +39,9 @@ class TestItem extends Item {
 
 class Menu extends BaseItem {
   MenuTestItem get menuTestItem => testItem as MenuTestItem;
+
   bool get group => menuTestItem.menu.group == true;
   ItemState state = ItemState.idle;
+
   Menu(TestItem testItem, bool autoRun) : super(testItem, autoRun);
 }
