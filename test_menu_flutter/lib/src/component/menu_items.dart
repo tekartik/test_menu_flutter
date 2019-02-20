@@ -126,7 +126,7 @@ class MenuItemsState extends State<MenuItems> {
     Future _addMenu(TestMenu testMenu, bool run) async {
       for (var item in testMenu.items) {
         if (item is MenuTestItem) {
-          _addMenu(item.menu, run);
+          await _addMenu(item.menu, run);
           // devPrint(item);
         } else if (item is RunnableTestItem) {
           // devPrint(item);
