@@ -436,7 +436,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
               return true;
             }*/
             if (testMenuManager.canPop()) {
-              testMenuManager.popMenu();
+              await testMenuManager.popMenu();
               return false;
             }
             if (testMenuManager.activeMenu is RootTestMenu) {
