@@ -161,8 +161,8 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
   void write(Object message) {
     print('[o] $message');
     output.add("$message");
-    if (output.length > 50) {
-      output = output.sublist(20);
+    if (output.length > 200) {
+      output = output.sublist(100);
     }
     _setOutput(output);
     // stdout.writeln("$message");
@@ -257,7 +257,8 @@ class _RootMenuPageState extends State<RootMenuPage> {
   TestMenu displayedMenu;
   String outputText = '[console output]';
   final promptController = TextEditingController();
-
+  ScrollController scrollController;
+  bool fixAtEnd = true;
   _RootMenuPageState();
 
   @override
@@ -281,6 +282,9 @@ class _RootMenuPageState extends State<RootMenuPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (fixAtEnd) {
+      _scrollToBottom();
+    }
     _testMenuManagerFlutter.buildContext = context;
     _testMenuManagerFlutter.onPrompted = (Prompt prompt) {
       Future _showDialog() async {
@@ -337,52 +341,63 @@ class _RootMenuPageState extends State<RootMenuPage> {
       // devPrint('Build menu $menu');
       var children2 = <Widget>[];
       if (_testMenuManagerFlutter.showConsole) {
+        if (scrollController == null) {
+          scrollController = ScrollController();
+
+          scrollController.addListener(onScroll);
+        }
         children2.add(Expanded(
             flex: 3,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                      child: SingleChildScrollView(
-                          reverse: true,
-                          child: Column(children: <Widget>[
-                            Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  outputText,
-                                  style: const TextStyle(fontSize: 9.0),
-                                  softWrap: true,
-                                  textAlign: TextAlign.left,
-                                  overflow: TextOverflow.clip,
-                                ))
-                          ])))
-                ])));
+            child: Container(
+                decoration: BoxDecoration(color: Colors.grey[900]),
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SingleChildScrollView(
+                        controller: scrollController,
+                        reverse: true,
+                        child: ConstrainedBox(
+                            constraints:
+                                const BoxConstraints(minWidth: double.infinity),
+                            child: Wrap(children: <Widget>[
+                              Text(
+                                outputText,
+                                style: const TextStyle(
+                                    fontSize: 9.0, color: Colors.white70),
+                                //softWrap: true,
+                                textAlign: TextAlign.left,
+                                //overflow: TextOverflow.clip,
+                              )
+                            ])))))));
+      } else {
+        scrollController?.removeListener(onScroll);
+        scrollController = null;
       }
       children2.add(Expanded(
           flex: 5,
           child: MenuItems(
+              onPlayItem: (_) => _scrollToBottom(),
+              onTapItem: (_) => _scrollToBottom(),
               items: List.generate(menu.items.length, (int index) {
-            var testItem = menu.items[index];
-            if (testItem is MenuTestItem) {
-              return _testMenuManagerFlutter.getTestItemMenu(testItem);
-            } else {
-              // devPrint('creating test item ${testItem}');
-              /*
+                var testItem = menu.items[index];
+                if (testItem is MenuTestItem) {
+                  return _testMenuManagerFlutter.getTestItemMenu(testItem);
+                } else {
+                  // devPrint('creating test item ${testItem}');
+                  /*
               return new Item(testItem.name, () async {
                     devPrint('running $testItem');
                     await testMenuManager.runItem(testItem);
                     devPrint('done $testItem');
                   });*/
-              return _testMenuManagerFlutter.getTestItemItem(testItem);
-              // return new Future.sync(item.run).then((_) {
-              /*
+                  return _testMenuManagerFlutter.getTestItemItem(testItem);
+                  // return new Future.sync(item.run).then((_) {
+                  /*
         if (verbose) {
           print("$TAG done '$item'");
         }
         */
-            }
-          }))));
+                }
+              }))));
       var column = Column(children: children2);
 
       var actions = <Widget>[];
@@ -466,6 +481,26 @@ class _RootMenuPageState extends State<RootMenuPage> {
     );
   }
 
+  void onScroll() {
+    // devPrint(scrollController.position);
+    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
+        !scrollController.position.outOfRange) {
+      // if (!fixAtEnd) {
+      //  devPrint('at end');
+      // }
+      fixAtEnd = true;
+    } else {
+      // if (fixAtEnd) {
+      //  devPrint('not at end');
+      // }
+      fixAtEnd = false;
+    }
+  }
+
+  void _scrollToBottom() {
+    // devPrint('should scroll ${scrollController?.position}');
+    // scrollController?.animateTo(scrollController?.position?.maxScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
+  }
   void runTests() {
     TestMenu menu = this.displayedMenu;
     // devPrint('menu $menu');
