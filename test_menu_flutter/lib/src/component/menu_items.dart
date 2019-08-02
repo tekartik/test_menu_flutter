@@ -12,9 +12,20 @@ import 'package:tekartik_test_menu_flutter/src/component/menu_item_widget.dart';
 import 'package:tekartik_test_menu_flutter/src/model/item.dart';
 
 class MenuItems extends StatefulWidget {
+  /// Hook
+  final void Function(BaseItem item) onTapItem;
+
+  /// Hook
+  final void Function(BaseItem item) onPlayItem;
   final List<BaseItem> items;
 
-  MenuItems({Key key, this.title, this.items}) : super(key: key);
+  MenuItems(
+      {Key key,
+      this.title,
+      this.items,
+      @required this.onTapItem,
+      @required this.onPlayItem})
+      : super(key: key);
 
   final String title;
 
@@ -77,6 +88,9 @@ class MenuItemsState extends State<MenuItems> {
         _runIfTest(item);
       });
       return ItemWidget(item, (_) async {
+        // notify hook
+        widget.onPlayItem(item);
+
         // item.action();
         await _run(item);
         /*
@@ -93,6 +107,9 @@ class MenuItemsState extends State<MenuItems> {
       return MenuItemWidget(
         item,
         onTap: (_) async {
+          // notify hook
+          widget.onTapItem(item);
+
           // item.action();
           await _enterMenu(item);
           /*
@@ -102,6 +119,9 @@ class MenuItemsState extends State<MenuItems> {
         */
         },
         onPlay: (Menu menu) {
+          // notify hook
+          widget.onPlayItem(item);
+
           _runGroup(menu);
           // (menu.testItem as MenuTestItem).
         },

@@ -24,6 +24,7 @@ dev_dependencies:
       url: git://github.com/tekartik/test_menu.dart
       ref: dart2
       path: test_menu_io
+  process_run: '>=0.10.0'
 
 dependency_overrides:
 #  tekartik_test_menu:
