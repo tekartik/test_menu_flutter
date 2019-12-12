@@ -18,3 +18,5 @@ doc/api/
 
 /android/
 /ios/
+/test_menu_flutter/ios/Flutter/flutter_export_environment.sh
+/test_menu_flutter_example/ios/Flutter/flutter_export_environment.sh
