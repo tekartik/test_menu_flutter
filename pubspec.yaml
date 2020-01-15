@@ -6,7 +6,7 @@ author: alex <alex@tekartik.com>
 publish_to: none
 
 environment:
-  sdk: '>=2.1.0-dev <3.0.0'
+  sdk: '>=2.4.0-dev <3.0.0'
 
 dev_dependencies:
   pedantic: '>=1.4.0 <3.0.0'
@@ -16,11 +16,11 @@ dev_dependencies:
       ref: dart2
     version: '>=0.1.0'
   process_run: '>=0.10.0'
-  tekartik_common_utils:
+  tekartik_build_utils:
     git:
-      url: git://github.com/tekartik/common_utils.dart
+      url: git://github.com/tekartik/build_utils.dart
       ref: dart2
-    version: '>=0.9.8'
+    version: '>=0.1.8'
 
 dependency_overrides:
   pedantic: '>=1.4.0 <3.0.0'
