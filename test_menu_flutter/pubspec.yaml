@@ -1,11 +1,11 @@
 name: tekartik_test_menu_flutter
 description: Flutter test menu
-version: 0.2.5
+version: 0.3.0
 author:
 homepage:
 
 environment:
-  sdk: ">=2.1.0-dev <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -15,7 +15,7 @@ dependencies:
       url: git://github.com/tekartik/test_menu.dart
       ref: dart2
       path: test_menu
-    version: '>=0.5.1'
+    version: '>=0.6.0'
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -24,7 +24,7 @@ dev_dependencies:
       url: git://github.com/tekartik/test_menu.dart
       ref: dart2
       path: test_menu_io
-  process_run: '>=0.10.0'
+  process_run: '>=0.6.0'
 
 dependency_overrides:
 #  tekartik_test_menu:

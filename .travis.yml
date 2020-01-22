@@ -1,6 +1,7 @@
 language: dart
 sudo: required
 dist: trusty
+# dart version mapped to flutter channel
 dart:
   - stable
   - dev

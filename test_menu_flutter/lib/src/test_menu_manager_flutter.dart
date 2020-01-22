@@ -46,7 +46,7 @@ class Prompt {
 
 class _TestMenuManagerFlutter extends TestMenuPresenter
     with TestMenuPresenterMixin {
-  static final String tag = "[test_menu_flutter]";
+  // static final String tag = "[test_menu_flutter]";
 
   bool verbose;
   ValueChanged<TestMenu> onTestMenuChanged = (TestMenu testMenu) {
