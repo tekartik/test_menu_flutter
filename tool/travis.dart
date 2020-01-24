@@ -1,7 +1,15 @@
-import 'package:process_run/shell.dart';
+import 'package:process_run/shell_run.dart';
 
 Future main() async {
   var shell = Shell();
+
+  await run('''
+  
+  dartanalyzer --fatal-warnings --fatal-infos test tool
+  dartfmt -n --set-exit-if-changed test tool
+  pub run test
+  
+  ''');
 
   await shell.run('flutter doctor');
 
