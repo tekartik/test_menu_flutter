@@ -64,7 +64,7 @@ void main() {
   item('root_item', () {
     write('from root item');
   });
-  item("sleep 1000", () async {
+  item('sleep 1000', () async {
     write('before sleep');
     await sleep(2000);
     write('after sleep 2000');
@@ -73,7 +73,7 @@ void main() {
     Navigator.push(buildContext,
         MaterialPageRoute(builder: (BuildContext context) {
       return Scaffold(
-          appBar: AppBar(title: const Text("test")),
+          appBar: AppBar(title: const Text('test')),
           body: demoSimpleList(context));
     }));
   });

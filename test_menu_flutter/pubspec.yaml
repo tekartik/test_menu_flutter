@@ -27,6 +27,7 @@ dev_dependencies:
   process_run: '>=0.6.0'
 
 dependency_overrides:
+  pedantic: '>=1.9.0'
 #  tekartik_test_menu:
 #    path: ../../test_menu.dart/test_menu
 # temp pre-dart2 override
