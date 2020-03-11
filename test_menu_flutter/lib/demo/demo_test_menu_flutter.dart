@@ -10,7 +10,7 @@ void main() {
       Navigator.push(buildContext,
           MaterialPageRoute(builder: (BuildContext context) {
         return Scaffold(
-            appBar: AppBar(title: const Text("test")),
+            appBar: AppBar(title: const Text('test')),
             body: demoSimpleList(context));
       }));
     });

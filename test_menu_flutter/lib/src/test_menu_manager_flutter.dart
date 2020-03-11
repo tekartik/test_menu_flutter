@@ -24,7 +24,7 @@ class FlutterTestMenu {
 
   @override
   String toString() {
-    return "$testMenu $buildContext";
+    return '$testMenu $buildContext';
   }
 }
 
@@ -40,23 +40,23 @@ class Prompt {
 
   @override
   String toString() {
-    return "Prompt: $message";
+    return 'Prompt: $message';
   }
 }
 
 class _TestMenuManagerFlutter extends TestMenuPresenter
     with TestMenuPresenterMixin {
-  // static final String tag = "[test_menu_flutter]";
+  // static final String tag = '[test_menu_flutter]';
 
   bool verbose;
   ValueChanged<TestMenu> onTestMenuChanged = (TestMenu testMenu) {
-    // devPrint("unhandled $testMenu");
+    // devPrint('unhandled $testMenu');
   };
   ValueChanged<String> onOutputChanged = (String text) {
-    // devPrint("unhandled output $text");
+    // devPrint('unhandled output $text');
   };
   ValueChanged<Prompt> onPrompted = (Prompt prompt) {
-    // devPrint("unhandled onPrompted $prompt");
+    // devPrint('unhandled onPrompted $prompt');
   };
 
   BuildContext buildContext;
@@ -89,18 +89,14 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
   }
 
   Item getTestItemItem(TestItem testItem) {
-    var item = testItemItems[testItem];
-    if (item == null) {
-      item = newTestItemBase(testItem);
-    }
+    var item = testItemItems[testItem] ?? newTestItemBase(testItem);
+
     return item as Item;
   }
 
   Menu getTestItemMenu(TestItem testItem) {
-    var item = testItemItems[testItem];
-    if (item == null) {
-      item = newTestItemBase(testItem);
-    }
+    var item = testItemItems[testItem] ?? newTestItemBase(testItem);
+
     return item as Menu;
   }
 
@@ -160,12 +156,12 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
   @override
   void write(Object message) {
     print('[o] $message');
-    output.add("$message");
+    output.add('$message');
     if (output.length > 200) {
       output = output.sublist(100);
     }
     _setOutput(output);
-    // stdout.writeln("$message");
+    // stdout.writeln('$message');
   }
 
   List<String> output = [];
@@ -173,8 +169,8 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
   @override
   Future<String> prompt(Object message) async {
     // devPrint('Prompt: $message');
-    write(message ?? "[Enter text]");
-    message ??= "Enter text";
+    write(message ?? '[Enter text]');
+    message ??= 'Enter text';
     var prompt = Prompt('$message');
     onPrompted(prompt);
     return await prompt.future;
@@ -188,7 +184,8 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
   }
 }
 
-void initTestMenuFlutter({Widget builder(Widget child), bool showConsole}) {
+void initTestMenuFlutter(
+    {Widget Function(Widget child) builder, bool showConsole}) {
   //TestMenuManager.debug.on = true;
   _testMenuManagerFlutter = _TestMenuManagerFlutter()
     ..showConsole = showConsole == true;
@@ -205,7 +202,7 @@ void initTestMenuFlutter({Widget builder(Widget child), bool showConsole}) {
 
 _TestMenuManagerFlutter _testMenuManagerFlutter;
 
-void mainMenu(void body(), {bool showConsole}) {
+void mainMenu(void Function() body, {bool showConsole}) {
   initTestMenuFlutter(
       builder: (Widget child) {
         // _testMenuManagerFlutter.bodyBuilder = body;
@@ -234,10 +231,10 @@ class TestMenuApp extends StatelessWidget {
       theme: ThemeData(
         // This is the theme of your application.
         //
-        // Try running your application with "flutter run". You'll see the
+        // Try running your application with 'flutter run'. You'll see the
         // application has a blue toolbar. Then, without quitting the app, try
         // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
+        // 'hot reload' (press 'r' in the console where you ran 'flutter run',
         // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
         // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.blue,
@@ -393,7 +390,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
                   // return new Future.sync(item.run).then((_) {
                   /*
         if (verbose) {
-          print("$TAG done '$item'");
+          print('$TAG done '$item'');
         }
         */
                 }
@@ -401,7 +398,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
       var column = Column(children: children2);
 
       var actions = <Widget>[];
-      bool showConsole = _testMenuManagerFlutter.showConsole;
+      var showConsole = _testMenuManagerFlutter.showConsole;
       actions.add(IconButton(
         icon: const Icon(Icons.play_arrow),
         onPressed: () {
@@ -438,14 +435,14 @@ class _RootMenuPageState extends State<RootMenuPage> {
         ));
       }
 
-      bool atRoot = menu?.name == null;
+      var atRoot = menu?.name == null;
       return WillPopScope(
           // onWillPop: () async => true,
 
           onWillPop: () async {
-            // devPrint("onWillPop ${testMenuManager.canPop()} ${testMenuManager
+            // devPrint('onWillPop ${testMenuManager.canPop()} ${testMenuManager
             //    .activeDepth} ${testMenuManager
-            //    .activeMenu is RootTestMenu}");
+            //    .activeMenu is RootTestMenu}');
             /*if (testMenuManager.activeMenu is RootTestMenu) {
               devPrint('atRoot');
               return true;
@@ -469,7 +466,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
           child: Scaffold(
               appBar: AppBar(
                 leading: atRoot ? null : const BackButton(),
-                title: Text(menu?.name ?? "MAIN"),
+                title: Text(menu?.name ?? 'MAIN'),
                 actions: actions,
               ),
               body: column));
@@ -502,7 +499,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
     // scrollController?.animateTo(scrollController?.position?.maxScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
   }
   void runTests() {
-    TestMenu menu = this.displayedMenu;
+    var menu = displayedMenu;
     // devPrint('menu $menu');
     setState(() {
       for (var testItem in menu.items) {

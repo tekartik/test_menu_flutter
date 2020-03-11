@@ -138,9 +138,9 @@ class MenuItemsState extends State<MenuItems> {
   }
 
   Future _runGroup(Menu menu) async {
-    // devPrint("_runGroup");
-    int count = 0;
-    int successCount = 0;
+    // devPrint('_runGroup');
+    var count = 0;
+    var successCount = 0;
     dynamic firstError;
 
     Future _addMenu(TestMenu testMenu, bool run) async {
@@ -152,14 +152,14 @@ class MenuItemsState extends State<MenuItems> {
           // devPrint(item);
           count++;
           if (run) {
-            print("#TEST Running ${item.name}");
+            print('#TEST Running ${item.name}');
             try {
               await item.fn();
               successCount++;
             } catch (e) {
               firstError ??= e;
             }
-            print("TEST Done ${item.name}");
+            print('TEST Done ${item.name}');
           }
         }
       }
@@ -184,7 +184,7 @@ class MenuItemsState extends State<MenuItems> {
       write('SUCCESS tests $successCount/$count');
     } catch (e) {
       write('ERROR tests $successCount/$count');
-      print("TEST Error $e running ${menu.name}");
+      print('TEST Error $e running ${menu.name}');
       try {
         //print(st);
 /*        if (await Sqflite.getDebugModeOn()) {
@@ -206,17 +206,17 @@ class MenuItemsState extends State<MenuItems> {
       // devPrint('running item widget ${item}');
     });
     try {
-      print("#TEST Running ${item.name}");
+      print('#TEST Running ${item.name}');
       await item.action();
-      print("TEST Done ${item.name}");
+      print('TEST Done ${item.name}');
 
-      //item = new Item("${item.name}")..state = ItemState.success;
+      //item = new Item('${item.name}')..state = ItemState.success;
       setState(() {
         item.state = ItemState.success;
         // devPrint('success item widget ${item}');
       });
     } catch (e) {
-      write("ERROR '$e' running ${item.name}");
+      write('ERROR \'$e\' running ${item.name}');
       try {
         //print(st);
 /*        if (await Sqflite.getDebugModeOn()) {
