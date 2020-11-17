@@ -13,6 +13,10 @@ export 'src/test_menu_manager_flutter.dart'
         // ignore: deprecated_member_use
         solo_menu,
         item,
+        command,
+        showMenu,
+        enter,
+        leave,
         menu,
         write,
         navigator,
