@@ -3,9 +3,10 @@ description: Flutter test menu
 version: 0.3.0
 author:
 homepage:
+publish_to: none
 
 environment:
-  sdk: ">=2.6.0 <3.0.0"
+  sdk: '>=2.10.0-0 <3.0.0'
 
 dependencies:
   flutter:

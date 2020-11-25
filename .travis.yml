@@ -1,9 +1,10 @@
 language: dart
 sudo: required
-dist: trusty
+dist: xenial
 # dart version mapped to flutter channel
 dart:
   - stable
+  - beta
   - dev
 before_script:
   - pub run tekartik_travis_ci_flutter:install
