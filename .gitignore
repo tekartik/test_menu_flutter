@@ -22,3 +22,6 @@ doc/api/
 /test_menu_flutter_example/ios/Flutter/flutter_export_environment.sh
 
 /example/min_app/
+
+# Local files
+.local/
