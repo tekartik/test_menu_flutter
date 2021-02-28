@@ -15,7 +15,7 @@ abstract class BaseItem {
 class Item extends BaseItem {
   RunnableTestItem get runnableTestItem => (testItem as RunnableTestItem);
 
-  bool get test => runnableTestItem.test;
+  bool? get test => runnableTestItem.test;
 
   dynamic Function() get action => (testItem as RunnableTestItem).fn;
 

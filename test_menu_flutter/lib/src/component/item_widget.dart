@@ -15,8 +15,8 @@ class ItemWidget extends StatefulWidget {
 class _ItemWidgetState extends State<ItemWidget> {
   @override
   Widget build(BuildContext context) {
-    IconData icon;
-    Color color;
+    IconData? icon;
+    Color? color;
 
     switch (widget.item.state) {
       case ItemState.running:

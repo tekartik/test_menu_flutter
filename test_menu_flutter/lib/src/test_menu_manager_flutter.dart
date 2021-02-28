@@ -18,7 +18,7 @@ bool testMenuConsoleDebug = false;
 
 class FlutterTestMenu {
   final TestMenu testMenu;
-  BuildContext buildContext;
+  BuildContext? buildContext;
 
   FlutterTestMenu(this.testMenu);
 
@@ -28,7 +28,7 @@ class FlutterTestMenu {
   }
 }
 
-Map<TestMenu, FlutterTestMenu> flutterTestMenuMap = {};
+Map<TestMenu, FlutterTestMenu?> flutterTestMenuMap = {};
 
 class Prompt {
   final String message;
@@ -48,7 +48,7 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
     with TestMenuPresenterMixin {
   // static final String tag = '[test_menu_flutter]';
 
-  bool verbose;
+  bool? verbose;
   ValueChanged<TestMenu> onTestMenuChanged = (TestMenu testMenu) {
     // devPrint('unhandled $testMenu');
   };
@@ -59,21 +59,21 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
     // devPrint('unhandled onPrompted $prompt');
   };
 
-  BuildContext buildContext;
+  BuildContext? buildContext;
 
   // void Function() bodyBuilder;
 
   _TestMenuManagerFlutter();
 
-  TestMenu displayedMenu;
+  TestMenu? displayedMenu;
   bool showConsole = true;
 
-  Map<TestItem, BaseItem> testItemItems = {};
+  Map<TestItem, BaseItem?> testItemItems = {};
 
-  NavigatorState get navigator => Navigator.of(buildContext);
+  NavigatorState get navigator => Navigator.of(buildContext!);
 
-  BaseItem newTestItemBase(TestItem testItem, {bool run}) {
-    BaseItem item;
+  BaseItem? newTestItemBase(TestItem testItem, {bool? run}) {
+    BaseItem? item;
     if (testItem is RunnableTestItem) {
       item = Item(testItem, run != false);
     } else if (testItem is MenuTestItem) {
@@ -83,35 +83,35 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
     return item;
   }
 
-  BaseItem getTestItemBase(TestItem testItem) {
+  BaseItem? getTestItemBase(TestItem testItem) {
     var item = testItemItems[testItem];
     return item;
   }
 
-  Item getTestItemItem(TestItem testItem) {
+  Item? getTestItemItem(TestItem testItem) {
     var item = testItemItems[testItem] ?? newTestItemBase(testItem);
 
-    return item as Item;
+    return item as Item?;
   }
 
-  Menu getTestItemMenu(TestItem testItem) {
+  Menu? getTestItemMenu(TestItem testItem) {
     var item = testItemItems[testItem] ?? newTestItemBase(testItem);
 
-    return item as Menu;
+    return item as Menu?;
   }
 
   // Get or create
-  FlutterTestMenu get displayedFlutterMenu {
+  FlutterTestMenu? get displayedFlutterMenu {
     return getFlutterMenu(displayedMenu);
   }
 
-  FlutterTestMenu getFlutterMenu(TestMenu testMenu) {
+  FlutterTestMenu? getFlutterMenu(TestMenu? testMenu) {
     if (testMenu != null) {
       var flutterTestMenu = flutterTestMenuMap[testMenu];
 
       // Clean of map
-      var cleanedMap = <TestMenu, FlutterTestMenu>{};
-      for (var menuRunner in testMenuManager.stackMenus) {
+      var cleanedMap = <TestMenu, FlutterTestMenu?>{};
+      for (var menuRunner in testMenuManager!.stackMenus) {
         var testMenu = menuRunner.menu;
         if (flutterTestMenuMap.containsKey(testMenu)) {
           cleanedMap[testMenu] = flutterTestMenuMap[testMenu];
@@ -167,7 +167,7 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
   List<String> output = [];
 
   @override
-  Future<String> prompt(Object message) async {
+  Future<String> prompt(Object? message) async {
     // devPrint('Prompt: $message');
     write(message ?? '[Enter text]');
     message ??= 'Enter text';
@@ -185,7 +185,7 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
 }
 
 void initTestMenuFlutter(
-    {Widget Function(Widget child) builder, bool showConsole}) {
+    {Widget Function(Widget child)? builder, bool? showConsole}) {
   //TestMenuManager.debug.on = true;
   _testMenuManagerFlutter = _TestMenuManagerFlutter()
     ..showConsole = showConsole == true;
@@ -197,12 +197,12 @@ void initTestMenuFlutter(
   }
   runApp(app);
   // set current
-  testMenuPresenter = _testMenuManagerFlutter;
+  testMenuPresenter = _testMenuManagerFlutter!;
 }
 
-_TestMenuManagerFlutter _testMenuManagerFlutter;
+_TestMenuManagerFlutter? _testMenuManagerFlutter;
 
-void mainMenu(void Function() body, {bool showConsole}) {
+void mainMenu(void Function() body, {bool? showConsole}) {
   initTestMenuFlutter(
       builder: (Widget child) {
         // _testMenuManagerFlutter.bodyBuilder = body;
@@ -251,10 +251,10 @@ class RootMenuPage extends StatefulWidget {
 }
 
 class _RootMenuPageState extends State<RootMenuPage> {
-  TestMenu displayedMenu;
+  TestMenu? displayedMenu;
   String outputText = '[console output]';
   final promptController = TextEditingController();
-  ScrollController scrollController;
+  ScrollController? scrollController;
   bool fixAtEnd = true;
   _RootMenuPageState();
 
@@ -262,19 +262,19 @@ class _RootMenuPageState extends State<RootMenuPage> {
   void initState() {
     // devPrint('initState');
     super.initState();
-    displayedMenu = _testMenuManagerFlutter.displayedMenu;
+    displayedMenu = _testMenuManagerFlutter!.displayedMenu;
     // _testMenuManagerFlutter.displayedMenu testMenuManager.
-    _testMenuManagerFlutter.onTestMenuChanged = (TestMenu testMenu) {
+    _testMenuManagerFlutter!.onTestMenuChanged = (TestMenu testMenu) {
       setState(() {
         displayedMenu = testMenu;
       });
     };
-    _testMenuManagerFlutter.onOutputChanged = (String output) {
+    _testMenuManagerFlutter!.onOutputChanged = (String output) {
       setState(() {
-        outputText = output ?? '';
+        outputText = output;
       });
     };
-    _testMenuManagerFlutter.onPrompted = (Prompt prompt) {};
+    _testMenuManagerFlutter!.onPrompted = (Prompt prompt) {};
   }
 
   @override
@@ -282,8 +282,8 @@ class _RootMenuPageState extends State<RootMenuPage> {
     if (fixAtEnd) {
       _scrollToBottom();
     }
-    _testMenuManagerFlutter.buildContext = context;
-    _testMenuManagerFlutter.onPrompted = (Prompt prompt) {
+    _testMenuManagerFlutter!.buildContext = context;
+    _testMenuManagerFlutter!.onPrompted = (Prompt prompt) {
       Future _showDialog() async {
         // devPrint('Show prompt $prompt');
         try {
@@ -299,18 +299,18 @@ class _RootMenuPageState extends State<RootMenuPage> {
                         controller: promptController,
                         autofocus: true,
                         decoration: InputDecoration(
-                            labelText: prompt.message ?? '', hintText: ''),
+                            labelText: prompt.message, hintText: ''),
                       ),
                     )
                   ],
                 ),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                       child: const Text('CANCEL'),
                       onPressed: () {
                         Navigator.pop(context, null);
                       }),
-                  FlatButton(
+                  TextButton(
                       child: const Text('OPEN'),
                       onPressed: () {
                         Navigator.pop(context, promptController.value.text);
@@ -334,14 +334,14 @@ class _RootMenuPageState extends State<RootMenuPage> {
     }
     */
     if (displayedMenu != null) {
-      var menu = displayedMenu;
+      var menu = displayedMenu!;
       // devPrint('Build menu $menu');
       var children2 = <Widget>[];
-      if (_testMenuManagerFlutter.showConsole) {
+      if (_testMenuManagerFlutter!.showConsole) {
         if (scrollController == null) {
           scrollController = ScrollController();
 
-          scrollController.addListener(onScroll);
+          scrollController!.addListener(onScroll);
         }
         children2.add(Expanded(
             flex: 3,
@@ -377,7 +377,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
               items: List.generate(menu.items.length, (int index) {
                 var testItem = menu.items[index];
                 if (testItem is MenuTestItem) {
-                  return _testMenuManagerFlutter.getTestItemMenu(testItem);
+                  return _testMenuManagerFlutter!.getTestItemMenu(testItem);
                 } else {
                   // devPrint('creating test item ${testItem}');
                   /*
@@ -386,7 +386,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
                     await testMenuManager.runItem(testItem);
                     devPrint('done $testItem');
                   });*/
-                  return _testMenuManagerFlutter.getTestItemItem(testItem);
+                  return _testMenuManagerFlutter!.getTestItemItem(testItem);
                   // return new Future.sync(item.run).then((_) {
                   /*
         if (verbose) {
@@ -398,7 +398,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
       var column = Column(children: children2);
 
       var actions = <Widget>[];
-      var showConsole = _testMenuManagerFlutter.showConsole;
+      var showConsole = _testMenuManagerFlutter!.showConsole;
       actions.add(IconButton(
         icon: const Icon(Icons.play_arrow),
         onPressed: () {
@@ -412,7 +412,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
           icon: const Icon(Icons.clear_all),
           onPressed: () {
             // devPrint('clear');
-            _testMenuManagerFlutter.clear();
+            _testMenuManagerFlutter!.clear();
           },
           tooltip: 'Clear the output console',
         ));
@@ -420,7 +420,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
           icon: const Icon(Icons.close),
           onPressed: () {
             // devPrint('show');
-            _testMenuManagerFlutter.show(false);
+            _testMenuManagerFlutter!.show(false);
           },
           tooltip: 'Hide the output console',
         ));
@@ -429,13 +429,13 @@ class _RootMenuPageState extends State<RootMenuPage> {
           icon: const Icon(Icons.show_chart),
           onPressed: () {
             // devPrint('show');
-            _testMenuManagerFlutter.show(true);
+            _testMenuManagerFlutter!.show(true);
           },
           tooltip: 'Show the output console',
         ));
       }
 
-      var atRoot = menu?.name == null;
+      var atRoot = menu.name == '_root_'; // TODO share constant
       return WillPopScope(
           // onWillPop: () async => true,
 
@@ -447,11 +447,11 @@ class _RootMenuPageState extends State<RootMenuPage> {
               devPrint('atRoot');
               return true;
             }*/
-            if (testMenuManager.canPop()) {
-              await testMenuManager.popMenu();
+            if (testMenuManager!.canPop()) {
+              await testMenuManager!.popMenu();
               return false;
             }
-            if (testMenuManager.activeMenu is RootTestMenu) {
+            if (testMenuManager!.activeMenu is RootTestMenu) {
               // devPrint('atRoot');
               return true;
             }
@@ -466,7 +466,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
           child: Scaffold(
               appBar: AppBar(
                 leading: atRoot ? null : const BackButton(),
-                title: Text(menu?.name ?? 'MAIN'),
+                title: Text(menu.name),
                 actions: actions,
               ),
               body: column));
@@ -480,8 +480,9 @@ class _RootMenuPageState extends State<RootMenuPage> {
 
   void onScroll() {
     // devPrint(scrollController.position);
-    if (scrollController.offset >= scrollController.position.maxScrollExtent &&
-        !scrollController.position.outOfRange) {
+    if (scrollController!.offset >=
+            scrollController!.position.maxScrollExtent &&
+        !scrollController!.position.outOfRange) {
       // if (!fixAtEnd) {
       //  devPrint('at end');
       // }
@@ -502,14 +503,14 @@ class _RootMenuPageState extends State<RootMenuPage> {
     var menu = displayedMenu;
     // devPrint('menu $menu');
     setState(() {
-      for (var testItem in menu.items) {
+      for (var testItem in menu!.items) {
         // recreate the items
-        _testMenuManagerFlutter.newTestItemBase(testItem, run: true);
+        _testMenuManagerFlutter!.newTestItemBase(testItem, run: true);
       }
     });
   }
 }
 
-NavigatorState get navigator => _testMenuManagerFlutter.navigator;
+NavigatorState get navigator => _testMenuManagerFlutter!.navigator;
 
-BuildContext get buildContext => _testMenuManagerFlutter.buildContext;
+BuildContext? get buildContext => _testMenuManagerFlutter!.buildContext;
