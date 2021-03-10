@@ -306,15 +306,17 @@ class _RootMenuPageState extends State<RootMenuPage> {
                 ),
                 actions: <Widget>[
                   TextButton(
-                      child: const Text('CANCEL'),
-                      onPressed: () {
-                        Navigator.pop(context, null);
-                      }),
+                    onPressed: () {
+                      Navigator.pop(context, null);
+                    },
+                    child: const Text('CANCEL'),
+                  ),
                   TextButton(
-                      child: const Text('OPEN'),
-                      onPressed: () {
-                        Navigator.pop(context, promptController.value.text);
-                      })
+                    onPressed: () {
+                      Navigator.pop(context, promptController.value.text);
+                    },
+                    child: const Text('OPEN'),
+                  )
                 ],
               );
             },

@@ -193,7 +193,7 @@ class MenuItemsState extends State<MenuItems> {
     */
       } finally {
         setState(() {
-          menu..state = ItemState.failure;
+          menu.state = ItemState.failure;
           // devPrint('failure menu widget ${menu}');
         });
       }
@@ -225,7 +225,7 @@ class MenuItemsState extends State<MenuItems> {
     */
       } finally {
         setState(() {
-          item..state = ItemState.failure;
+          item.state = ItemState.failure;
           // devPrint('failure item widget ${item}');
         });
       }
