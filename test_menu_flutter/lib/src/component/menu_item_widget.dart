@@ -4,8 +4,8 @@ import 'package:tekartik_test_menu_flutter/src/model/item.dart';
 
 class MenuItemWidget extends StatefulWidget {
   final Menu menu;
-  final Function(Menu menu) onTap; // = Function(MainItem item);
-  final Function(Menu menu) onPlay;
+  final Function(Menu menu)? onTap; // = Function(MainItem item);
+  final Function(Menu menu)? onPlay;
 
   MenuItemWidget(this.menu, {this.onTap, this.onPlay});
 
@@ -16,8 +16,8 @@ class MenuItemWidget extends StatefulWidget {
 class _MenuItemWidgetState extends State<MenuItemWidget> {
   @override
   Widget build(BuildContext context) {
-    Color color;
-    IconData icon;
+    Color? color;
+    IconData? icon;
     switch (widget.menu.state) {
       case ItemState.running:
         icon = Icons.more_horiz;
@@ -64,13 +64,13 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
   }
 
   void _onTap() {
-    widget.onTap(widget.menu);
+    widget.onTap!(widget.menu);
 
     //print(widget.item.route);
     //Navigator.pushNamed(context, widget.item.route);
   }
 
   void _onPlay() {
-    widget.onPlay(widget.menu);
+    widget.onPlay!(widget.menu);
   }
 }

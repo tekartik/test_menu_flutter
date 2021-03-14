@@ -1,0 +1,27 @@
+# See https://www.dartlang.org/guides/libraries/private-files
+
+# Files and directories created by pub
+.dart_tool/
+.packages
+.pub/
+build/
+# If you're building an application, you may want to check-in your pubspec.lock
+pubspec.lock
+
+# Directory created by dartdoc
+# If you don't generate documentation locally you can remove this line.
+doc/api/
+
+# Intellij
+.idea/
+*.iml
+
+/android/
+/ios/
+/test_menu_flutter/ios/Flutter/flutter_export_environment.sh
+/test_menu_flutter_example/ios/Flutter/flutter_export_environment.sh
+
+/example/min_app/
+
+# Local files
+.local/

@@ -7,7 +7,7 @@ import 'common_test_menu.dart' as common;
 void main() {
   menu('flutter', () {
     item('navigate', () {
-      Navigator.push(buildContext,
+      Navigator.push(buildContext!,
           MaterialPageRoute(builder: (BuildContext context) {
         return Scaffold(
             appBar: AppBar(title: const Text('test')),

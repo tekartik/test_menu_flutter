@@ -17,17 +17,17 @@ class MenuItems extends StatefulWidget {
 
   /// Hook
   final void Function(BaseItem item) onPlayItem;
-  final List<BaseItem> items;
+  final List<BaseItem?>? items;
 
   MenuItems(
-      {Key key,
+      {Key? key,
       this.title,
       this.items,
-      @required this.onTapItem,
-      @required this.onPlayItem})
+      required this.onTapItem,
+      required this.onPlayItem})
       : super(key: key);
 
-  final String title;
+  final String? title;
 
   @override
   MenuItemsState createState() => MenuItemsState();
@@ -68,7 +68,7 @@ class MenuItemsState extends State<MenuItems> {
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
-    var item = widget.items[index];
+    var item = widget.items![index];
     /*if (item is MainItem) {
       return new GroupWidget(item as MainItem, (MainItem item) {
         if (item is PageItem) {
@@ -133,7 +133,7 @@ class MenuItemsState extends State<MenuItems> {
   Future _enterMenu(Menu menu) async {
     var testItem = menu.testItem;
     // devPrint('running $testItem');
-    await testMenuManager.runItem(testItem);
+    await testMenuManager!.runItem(testItem);
     // devPrint('done $testItem');
   }
 
@@ -141,7 +141,7 @@ class MenuItemsState extends State<MenuItems> {
     // devPrint('_runGroup');
     var count = 0;
     var successCount = 0;
-    dynamic firstError;
+    Object? firstError;
 
     Future _addMenu(TestMenu testMenu, bool run) async {
       for (var item in testMenu.items) {
@@ -175,7 +175,7 @@ class MenuItemsState extends State<MenuItems> {
 
       await _addMenu(menu.menuTestItem.menu, true);
       if (firstError != null) {
-        throw firstError;
+        throw firstError!;
       }
       setState(() {
         menu.state = ItemState.success;
@@ -193,7 +193,7 @@ class MenuItemsState extends State<MenuItems> {
     */
       } finally {
         setState(() {
-          menu..state = ItemState.failure;
+          menu.state = ItemState.failure;
           // devPrint('failure menu widget ${menu}');
         });
       }
@@ -225,7 +225,7 @@ class MenuItemsState extends State<MenuItems> {
     */
       } finally {
         setState(() {
-          item..state = ItemState.failure;
+          item.state = ItemState.failure;
           // devPrint('failure item widget ${item}');
         });
       }

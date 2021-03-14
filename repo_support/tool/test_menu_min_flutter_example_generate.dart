@@ -4,7 +4,7 @@ import 'package:tekartik_build_utils/flutter/app/generate.dart';
 import 'package:path/path.dart';
 
 Future main() async {
-  var dirName = join('example', 'min_app');
+  var dirName = join('..', 'example', 'min_app');
   try {
     await Directory(dirName).delete(recursive: true);
   } catch (_) {}

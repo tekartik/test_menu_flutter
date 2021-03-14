@@ -70,7 +70,7 @@ void main() {
     write('after sleep 2000');
   });
   item('navigate', () {
-    Navigator.push(buildContext,
+    Navigator.push(buildContext!,
         MaterialPageRoute(builder: (BuildContext context) {
       return Scaffold(
           appBar: AppBar(title: const Text('test')),
