@@ -1,13 +1,5 @@
-import 'package:process_run/shell.dart';
+import 'package:dev_test/package.dart';
 
 Future main() async {
-  var shell = Shell();
-
-  await shell.run('''
-    
-    flutter analyze
-    flutter analyze --no-current-package
-    flutter test
-    
-     ''');
+  await packageRunCi('.');
 }
