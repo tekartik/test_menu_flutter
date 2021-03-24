@@ -36,6 +36,7 @@ dev_dependencies:
       ref: null_safety
       path: test_menu_io
   process_run: '>=0.10.0'
+  dev_test:
 
 dependency_overrides:
 #  pedantic: '>=1.9.0'

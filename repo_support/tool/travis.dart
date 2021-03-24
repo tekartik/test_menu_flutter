@@ -1,18 +1,11 @@
 import 'package:path/path.dart';
 import 'package:process_run/shell_run.dart';
+import 'package:dev_test/package.dart';
 
 Future main() async {
   var shell = Shell();
 
-  await run('''
-  
-  dartanalyzer --fatal-warnings --fatal-infos test tool
-  dartfmt -n --set-exit-if-changed test tool
-  pub run test
-  
-  ''');
-
-  await shell.run('flutter doctor');
+  await packageRunCi('.');
 
   for (var dir in [
     'test_menu_flutter',
