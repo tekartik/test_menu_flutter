@@ -1,9 +1,17 @@
 # flutter_test_menu
 
-A new Flutter package.
+## Setup
 
-## Getting Started
+```
+dependencies:
+  tekartik_test_menu_flutter:
+    git:
+      url: git://github.com/tekartik/test_menu_flutter
+      ref: null_safety
+      path: test_menu_flutter
+    version: '>=0.2.3'
+```
 
-For help getting started with Flutter, view our online [documentation](http://flutter.io/).
+## Quick main
 
-For help on editing package code, view the [documentation](https://flutter.io/developing-packages/).
+See [main.dart](../test_menu_flutter_example/lib/main.dart)

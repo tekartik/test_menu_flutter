@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:tekartik_build_utils/flutter/app/generate.dart';
 import 'package:path/path.dart';
+import 'package:tekartik_build_utils/flutter/app/generate.dart';
 
 Future main() async {
   var dirName = join('..', 'example', 'min_app');

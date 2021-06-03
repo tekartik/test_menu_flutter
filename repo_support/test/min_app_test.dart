@@ -1,10 +1,12 @@
 @TestOn('vm')
-import 'package:test/test.dart';
+library repo_support_test;
+
+import 'package:path/path.dart';
 import 'package:process_run/shell_run.dart';
 import 'package:tekartik_build_utils/android/android_import.dart';
 import 'package:tekartik_build_utils/flutter/app/generate.dart';
 import 'package:tekartik_build_utils/flutter/flutter.dart';
-import 'package:path/path.dart';
+import 'package:test/test.dart';
 
 void main() {
   group(
