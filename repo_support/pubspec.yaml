@@ -2,7 +2,7 @@ name: tekartik_test_menu_flutter_repo
 description: test_menu_flutter repo
 version: 0.1.0
 homepage: https://github.com/tekartik/sqflite
-author: alex <alex@tekartik.com>
+
 publish_to: none
 
 environment:

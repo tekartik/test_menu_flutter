@@ -256,6 +256,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
   final promptController = TextEditingController();
   ScrollController? scrollController;
   bool fixAtEnd = true;
+
   _RootMenuPageState();
 
   @override
@@ -501,6 +502,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
     // devPrint('should scroll ${scrollController?.position}');
     // scrollController?.animateTo(scrollController?.position?.maxScrollExtent, duration: Duration(milliseconds: 500), curve: Curves.easeOut);
   }
+
   void runTests() {
     var menu = displayedMenu;
     // devPrint('menu $menu');
