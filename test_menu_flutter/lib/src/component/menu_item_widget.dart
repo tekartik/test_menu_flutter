@@ -7,7 +7,8 @@ class MenuItemWidget extends StatefulWidget {
   final Function(Menu menu)? onTap; // = Function(MainItem item);
   final Function(Menu menu)? onPlay;
 
-  MenuItemWidget(this.menu, {this.onTap, this.onPlay});
+  const MenuItemWidget(this.menu, {Key? key, this.onTap, this.onPlay})
+      : super(key: key);
 
   @override
   _MenuItemWidgetState createState() => _MenuItemWidgetState();

@@ -1,4 +1,4 @@
-// ignore_for_file: implementation_imports
+// ignore_for_file: implementation_imports, avoid_print
 
 import 'dart:async';
 
@@ -19,7 +19,7 @@ class MenuItems extends StatefulWidget {
   final void Function(BaseItem item) onPlayItem;
   final List<BaseItem?>? items;
 
-  MenuItems(
+  const MenuItems(
       {Key? key,
       this.title,
       this.items,

@@ -49,12 +49,15 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
   // static final String tag = '[test_menu_flutter]';
 
   bool? verbose;
+  // ignore: prefer_function_declarations_over_variables
   ValueChanged<TestMenu> onTestMenuChanged = (TestMenu testMenu) {
     // devPrint('unhandled $testMenu');
   };
+  // ignore: prefer_function_declarations_over_variables
   ValueChanged<String> onOutputChanged = (String text) {
     // devPrint('unhandled output $text');
   };
+  // ignore: prefer_function_declarations_over_variables
   ValueChanged<Prompt> onPrompted = (Prompt prompt) {
     // devPrint('unhandled onPrompted $prompt');
   };
@@ -143,18 +146,19 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
 
   void clear() {
     output.clear();
-    print('clear output');
+    //print('clear output');
     _setOutput(output);
   }
 
   void show(bool show) {
-    print('show console $show');
+    //print('show console $show');
     showConsole = show;
     _setOutput(output);
   }
 
   @override
   void write(Object message) {
+    // ignore: avoid_print
     print('[o] $message');
     output.add('$message');
     if (output.length > 200) {
@@ -191,7 +195,7 @@ void initTestMenuFlutter(
     ..showConsole = showConsole == true;
   //_testMenuManagerFlutter.builder = builder;
 
-  Widget app = TestMenuApp();
+  Widget app = const TestMenuApp();
   if (builder != null) {
     app = builder(app);
   }
@@ -223,6 +227,8 @@ void mainMenu(void Function() body, {bool? showConsole}) {
 }
 
 class TestMenuApp extends StatelessWidget {
+  const TestMenuApp({Key? key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -239,13 +245,15 @@ class TestMenuApp extends StatelessWidget {
         // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: RootMenuPage(),
+      home: const RootMenuPage(),
       // new MyHomePage(),
     );
   }
 }
 
 class RootMenuPage extends StatefulWidget {
+  const RootMenuPage({Key? key}) : super(key: key);
+
   @override
   _RootMenuPageState createState() => _RootMenuPageState();
 }
