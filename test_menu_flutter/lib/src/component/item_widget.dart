@@ -6,7 +6,7 @@ import '../model/item.dart';
 class ItemWidget extends StatefulWidget {
   final Item item;
   final void Function(Item item) onTap; // = Function(MainItem item);
-  ItemWidget(this.item, this.onTap);
+  const ItemWidget(this.item, this.onTap, {Key? key}) : super(key: key);
 
   @override
   _ItemWidgetState createState() => _ItemWidgetState();

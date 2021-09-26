@@ -17,7 +17,7 @@ void main() {
       write('RESULT prompt: ${await prompt()}');
     });
     item('print hi', () {
-      print('hi');
+      print('hi'); // ignore: avoid_print
     });
     item('crash', () {
       throw 'crash';
