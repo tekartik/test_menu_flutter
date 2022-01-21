@@ -11,8 +11,8 @@ dependencies:
     sdk: flutter
   tekartik_test_menu:
     git:
-      url: git://github.com/tekartik/test_menu.dart
-      ref: null_safety
+      url: https://github.com/tekartik/test_menu.dart
+      ref: dart2_3
       path: test_menu
     version: '>=0.6.0'
 dev_dependencies:
@@ -20,15 +20,15 @@ dev_dependencies:
     sdk: flutter
   tekartik_test_menu_io:
     git:
-      url: git://github.com/tekartik/test_menu.dart
-      ref: null_safety
+      url: https://github.com/tekartik/test_menu.dart
+      ref: dart2_3
       path: test_menu_io
   process_run: '>=0.6.0'
   dev_test:
   tekartik_app_lints_flutter:
     git:
-      url: git://github.com/tekartik/app_flutter_utils.dart
-      ref: null_safety
+      url: https://github.com/tekartik/app_flutter_utils.dart
+      ref: dart2_3
       path: app_lints
     version: '>=0.1.0'
 dependency_overrides:
