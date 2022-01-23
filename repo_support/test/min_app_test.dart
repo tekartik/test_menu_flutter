@@ -1,7 +1,6 @@
 @TestOn('vm')
 library repo_support_test;
 
-import 'package:path/path.dart';
 import 'package:process_run/shell_run.dart';
 import 'package:tekartik_build_utils/android/android_import.dart';
 import 'package:tekartik_build_utils/flutter/app/generate.dart';
@@ -21,7 +20,7 @@ void main() {
         expect(await File(join(dirName, 'pubspec.yaml')).readAsString(),
             await File(join(src, 'pubspec.yaml')).readAsString());
         var context = await flutterContext;
-        if (context.supportsWeb) {
+        if (context.supportsWeb!) {
           await Shell(workingDirectory: dirName).run('flutter build web');
         }
       });

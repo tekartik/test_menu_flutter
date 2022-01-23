@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
-import '../model/item.dart';
+import 'package:tekartik_test_menu_flutter/src/model/item.dart';
 
 class ItemWidget extends StatefulWidget {
   final Item item;
