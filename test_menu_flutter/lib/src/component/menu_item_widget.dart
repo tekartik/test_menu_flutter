@@ -10,7 +10,7 @@ class MenuItemWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  _MenuItemWidgetState createState() => _MenuItemWidgetState();
+  State<MenuItemWidget> createState() => _MenuItemWidgetState();
 }
 
 class _MenuItemWidgetState extends State<MenuItemWidget> {
