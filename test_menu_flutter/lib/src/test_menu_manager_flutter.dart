@@ -3,7 +3,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:tekartik_common_utils/common_utils_import.dart';
+
 import 'package:tekartik_test_menu/src/test_menu/test_menu.dart';
 import 'package:tekartik_test_menu/src/test_menu/test_menu_manager.dart';
 import 'package:tekartik_test_menu/test_menu_presenter.dart';
@@ -255,7 +255,7 @@ class RootMenuPage extends StatefulWidget {
   const RootMenuPage({Key? key}) : super(key: key);
 
   @override
-  _RootMenuPageState createState() => _RootMenuPageState();
+  State<RootMenuPage> createState() => _RootMenuPageState();
 }
 
 class _RootMenuPageState extends State<RootMenuPage> {

@@ -7,7 +7,7 @@ class ItemWidget extends StatefulWidget {
   const ItemWidget(this.item, this.onTap, {Key? key}) : super(key: key);
 
   @override
-  _ItemWidgetState createState() => _ItemWidgetState();
+  State<ItemWidget> createState() => _ItemWidgetState();
 }
 
 class _ItemWidgetState extends State<ItemWidget> {

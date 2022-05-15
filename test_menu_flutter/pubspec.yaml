@@ -15,6 +15,9 @@ dependencies:
       ref: dart2_3
       path: test_menu
     version: '>=0.6.0'
+  collection:
+  synchronized:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
