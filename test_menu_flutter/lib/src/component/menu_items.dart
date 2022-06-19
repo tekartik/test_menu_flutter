@@ -143,10 +143,10 @@ class MenuItemsState extends State<MenuItems> {
     var successCount = 0;
     Object? firstError;
 
-    Future _addMenu(TestMenu testMenu, bool run) async {
+    Future addMenu(TestMenu testMenu, bool run) async {
       for (var item in testMenu.items) {
         if (item is MenuTestItem) {
-          await _addMenu(item.menu, run);
+          await addMenu(item.menu, run);
           // devPrint(item);
         } else if (item is RunnableTestItem) {
           // devPrint(item);
@@ -173,7 +173,7 @@ class MenuItemsState extends State<MenuItems> {
     try {
       //await _addMenu(menu.menuTestItem.menu, false);
 
-      await _addMenu(menu.menuTestItem.menu, true);
+      await addMenu(menu.menuTestItem.menu, true);
       if (firstError != null) {
         throw firstError!;
       }
