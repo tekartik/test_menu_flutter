@@ -3,7 +3,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
 import 'package:tekartik_test_menu/src/test_menu/test_menu.dart';
 import 'package:tekartik_test_menu/src/test_menu/test_menu_manager.dart';
 import 'package:tekartik_test_menu/test_menu_presenter.dart';
@@ -293,7 +292,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
     }
     _testMenuManagerFlutter!.buildContext = context;
     _testMenuManagerFlutter!.onPrompted = (Prompt prompt) {
-      Future _showDialog() async {
+      Future doShowDialog() async {
         // devPrint('Show prompt $prompt');
         try {
           var result = await showDialog<String>(
@@ -336,7 +335,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
         }
       }
 
-      _showDialog();
+      doShowDialog();
     };
     // devPrint('building root');
     /*
