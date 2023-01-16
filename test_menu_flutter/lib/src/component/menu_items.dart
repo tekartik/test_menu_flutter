@@ -84,7 +84,7 @@ class MenuItemsState extends State<MenuItems> {
     } else */
     if (item is Item) {
       // devPrint('item widget ${item}');
-      Future.value().then((_) {
+      Future<void>.value().then((_) {
         _runIfTest(item);
       });
       return ItemWidget(item, (_) async {
@@ -101,7 +101,7 @@ class MenuItemsState extends State<MenuItems> {
       });
     } else if (item is Menu) {
       // devPrint('menu widget ${item}');
-      Future.value().then((_) {
+      Future<void>.value().then((_) {
         _runIfGroup(item);
       });
       return MenuItemWidget(
