@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
 import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_test_menu_flutter/demo/demo.dart';
@@ -29,7 +31,7 @@ void main() {
     });
     item('navigate', () {
       Navigator.push(buildContext!,
-          MaterialPageRoute(builder: (BuildContext context) {
+          MaterialPageRoute<void>(builder: (BuildContext context) {
         return Scaffold(
             appBar: AppBar(title: const Text('test')),
             body: demoSimpleList(context));

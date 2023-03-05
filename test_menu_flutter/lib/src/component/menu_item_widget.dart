@@ -3,8 +3,8 @@ import 'package:tekartik_test_menu_flutter/src/model/item.dart';
 
 class MenuItemWidget extends StatefulWidget {
   final Menu menu;
-  final Function(Menu menu)? onTap; // = Function(MainItem item);
-  final Function(Menu menu)? onPlay;
+  final dynamic Function(Menu menu)? onTap; // = Function(MainItem item);
+  final dynamic Function(Menu menu)? onPlay;
 
   const MenuItemWidget(this.menu, {Key? key, this.onTap, this.onPlay})
       : super(key: key);
