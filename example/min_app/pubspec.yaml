@@ -34,7 +34,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  tekartik_lints_flutter:
+    git:
+      url: https://github.com/tekartik/common_flutter.dart
+      ref: dart3a
+      path: packages/lints_flutter
+    version: '>=0.2.0'
 dependency_overrides:
   tekartik_test_menu_flutter:
     path: ../../test_menu_flutter

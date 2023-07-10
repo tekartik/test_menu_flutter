@@ -37,11 +37,11 @@ dev_dependencies:
       path: test_menu_io
   process_run: '>=0.10.0'
   dev_test:
-  tekartik_lints:
+  tekartik_lints_flutter:
     git:
-      url: https://github.com/tekartik/common.dart
+      url: https://github.com/tekartik/common_flutter.dart
       ref: dart3a
-      path: packages/lints
+      path: packages/lints_flutter
     version: '>=0.2.0'
 dependency_overrides:
   tekartik_test_menu_flutter:
