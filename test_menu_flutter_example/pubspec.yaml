@@ -11,7 +11,7 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: '>=2.18.0 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   flutter:
@@ -23,7 +23,7 @@ dependencies:
   tekartik_test_menu_flutter:
     git:
       url: https://github.com/tekartik/test_menu_flutter
-      ref: dart2_3
+      ref: dart3a
       path: test_menu_flutter
     version: '>=0.2.3'
 
@@ -33,16 +33,16 @@ dev_dependencies:
   tekartik_test_menu_io:
     git:
       url: https://github.com/tekartik/test_menu.dart
-      ref: dart2_3
+      ref: dart3a
       path: test_menu_io
   process_run: '>=0.10.0'
   dev_test:
-  tekartik_app_lints_flutter:
+  tekartik_lints:
     git:
-      url: https://github.com/tekartik/app_flutter_utils.dart
-      ref: dart2_3
-      path: app_lints
-    version: '>=0.1.0'
+      url: https://github.com/tekartik/common.dart
+      ref: dart3a
+      path: packages/lints
+    version: '>=0.2.0'
 dependency_overrides:
   tekartik_test_menu_flutter:
     path: ../test_menu_flutter
