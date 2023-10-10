@@ -60,7 +60,7 @@ class MenuItemsState extends State<MenuItems> {
   }
 
   void _runIfGroup(Menu item) {
-    if (item.autoRun && item.group == true && item.state == ItemState.idle) {
+    if (item.autoRun && item.group && item.state == ItemState.idle) {
       _lock.synchronized(() async {
         await _runGroup(item);
       });
