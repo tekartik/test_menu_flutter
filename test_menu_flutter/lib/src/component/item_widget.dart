@@ -4,7 +4,7 @@ import 'package:tekartik_test_menu_flutter/src/model/item.dart';
 class ItemWidget extends StatefulWidget {
   final Item item;
   final void Function(Item item) onTap; // = Function(MainItem item);
-  const ItemWidget(this.item, this.onTap, {Key? key}) : super(key: key);
+  const ItemWidget(this.item, this.onTap, {super.key});
 
   @override
   State<ItemWidget> createState() => _ItemWidgetState();

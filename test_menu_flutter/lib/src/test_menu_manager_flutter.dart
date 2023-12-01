@@ -1,14 +1,13 @@
 // ignore_for_file: implementation_imports
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:tekartik_test_menu/src/test_menu/test_menu.dart';
 import 'package:tekartik_test_menu/src/test_menu/test_menu_manager.dart';
 import 'package:tekartik_test_menu/test_menu_presenter.dart';
-import 'package:tekartik_test_menu_flutter/src/component/common_import.dart';
 import 'package:tekartik_test_menu_flutter/src/component/menu_items.dart';
 import 'package:tekartik_test_menu_flutter/src/model/item.dart';
+
+import 'import.dart';
 
 export 'package:tekartik_test_menu/test_menu.dart';
 
@@ -226,7 +225,7 @@ void mainMenu(void Function() body, {bool? showConsole}) {
 }
 
 class TestMenuApp extends StatelessWidget {
-  const TestMenuApp({Key? key}) : super(key: key);
+  const TestMenuApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -251,7 +250,7 @@ class TestMenuApp extends StatelessWidget {
 }
 
 class RootMenuPage extends StatefulWidget {
-  const RootMenuPage({Key? key}) : super(key: key);
+  const RootMenuPage({super.key});
 
   @override
   State<RootMenuPage> createState() => _RootMenuPageState();
@@ -446,32 +445,24 @@ class _RootMenuPageState extends State<RootMenuPage> {
       }
 
       var atRoot = menu.name == '_root_'; // TODO share constant
-      return WillPopScope(
+      return PopScope(
+          canPop: false,
           // onWillPop: () async => true,
 
-          onWillPop: () async {
-            // devPrint('onWillPop ${testMenuManager.canPop()} ${testMenuManager
-            //    .activeDepth} ${testMenuManager
-            //    .activeMenu is RootTestMenu}');
-            /*if (testMenuManager.activeMenu is RootTestMenu) {
-              devPrint('atRoot');
-              return true;
-            }*/
+          onPopInvoked: (invoked) async {
+            if (invoked) {
+              return;
+            }
             if (testMenuManager!.canPop()) {
               await testMenuManager!.popMenu();
-              return false;
+              return;
             }
             if (testMenuManager!.activeMenu is RootTestMenu) {
               // devPrint('atRoot');
-              return true;
+              /// Pop at root
+              Navigator.of(context).pop();
             }
-            /*
-            Navigator.of(context).pop();
-            testMenuManager.popMenu().then((_) {
-              // Navigator.of(context).pop();
-            });
-            */
-            return false;
+            return;
           },
           child: Scaffold(
               appBar: AppBar(
