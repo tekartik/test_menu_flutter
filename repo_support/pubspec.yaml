@@ -16,7 +16,7 @@ dev_dependencies:
       ref: dart3a
     version: '>=0.7.1'
   test:
-  dev_test:
+  dev_build:
   path:
   pub_semver:
 
