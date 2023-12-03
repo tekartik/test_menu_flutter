@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:tekartik_test_menu_flutter/src/test_menu_manager_flutter.dart';
 
 class SubPage extends StatelessWidget {
-  const SubPage({Key? key}) : super(key: key);
+  const SubPage({super.key});
 
   @override
   Widget build(BuildContext context) {

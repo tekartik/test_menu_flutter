@@ -21,7 +21,7 @@ class Item extends BaseItem {
 
   ItemState state = ItemState.idle;
 
-  Item(TestItem testItem, bool autoRun) : super(testItem, autoRun);
+  Item(super.testItem, super.autoRun);
 
   @override
   String toString() {
@@ -43,5 +43,5 @@ class Menu extends BaseItem {
   bool get group => menuTestItem.menu.group == true;
   ItemState state = ItemState.idle;
 
-  Menu(TestItem testItem, bool autoRun) : super(testItem, autoRun);
+  Menu(super.testItem, super.autoRun);
 }

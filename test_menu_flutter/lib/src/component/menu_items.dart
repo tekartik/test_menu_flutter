@@ -20,12 +20,11 @@ class MenuItems extends StatefulWidget {
   final List<BaseItem?>? items;
 
   const MenuItems(
-      {Key? key,
+      {super.key,
       this.title,
       this.items,
       required this.onTapItem,
-      required this.onPlayItem})
-      : super(key: key);
+      required this.onPlayItem});
 
   final String? title;
 
