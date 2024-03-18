@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  dev_build: '>=0.16.5-1'
+
   tekartik_test_menu:
     git:
       url: https://github.com/tekartik/test_menu.dart
@@ -34,8 +36,10 @@ dev_dependencies:
   process_run: '>=0.6.0'
   dev_test:
 dependency_overrides:
-#  tekartik_test_menu:
-#    path: ../../test_menu.dart/test_menu
+  # tekartik_test_menu:
+  #  path: ../../test_menu.dart/test_menu
+  # dev_build:
+  #  path: ../../../tekartik/dev_test.dart/dev_build
 # temp pre-dart2 override
 #  collection: '>=1.14.6'
 # For information on the generic Dart part of this file, see the
