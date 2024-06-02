@@ -1,7 +1,7 @@
 import 'package:tekartik_test_menu_flutter/test.dart';
 
 void main() {
-  mainMenu(menu, showConsole: true);
+  mainMenuFlutter(menu, showConsole: true);
 }
 
 void menu() {
