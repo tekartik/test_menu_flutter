@@ -204,7 +204,13 @@ void initTestMenuFlutter(
 
 _TestMenuManagerFlutter? _testMenuManagerFlutter;
 
+@Deprecated('Use mainMenuFlutter')
 void mainMenu(void Function() body, {bool? showConsole}) {
+  mainMenuFlutter(body, showConsole: showConsole);
+}
+
+/// Main menu for flutter
+void mainMenuFlutter(void Function() body, {bool? showConsole}) {
   initTestMenuFlutter(
       builder: (Widget child) {
         // _testMenuManagerFlutter.bodyBuilder = body;
