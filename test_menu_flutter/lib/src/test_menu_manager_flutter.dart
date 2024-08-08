@@ -455,7 +455,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
           canPop: false,
           // onWillPop: () async => true,
 
-          onPopInvoked: (invoked) async {
+          onPopInvokedWithResult: (invoked, result) async {
             if (invoked) {
               return;
             }
@@ -466,7 +466,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
             if (testMenuManager!.activeMenu is RootTestMenu) {
               // devPrint('atRoot');
               /// Pop at root
-              Navigator.of(context).pop();
+              Navigator.of(context).pop(result);
             }
             return;
           },
