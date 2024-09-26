@@ -27,6 +27,7 @@ dependencies:
       path: test_menu_flutter
     version: '>=0.2.3'
 
+  dev_test: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -36,7 +37,6 @@ dev_dependencies:
       ref: dart3a
       path: test_menu_io
   process_run: '>=0.10.0'
-  dev_test:
   tekartik_lints_flutter:
     git:
       url: https://github.com/tekartik/common_flutter.dart
