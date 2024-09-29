@@ -1,4 +1,4 @@
-library test_menu_flutter;
+library;
 
 /* export 'src/component/menu_page.dart';
 export 'src/component/menu_items.dart';

@@ -1,5 +1,5 @@
 @TestOn('vm')
-library repo_support_test;
+library;
 
 import 'package:process_run/shell_run.dart';
 import 'package:tekartik_build_utils/android/android_import.dart';
