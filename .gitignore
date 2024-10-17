@@ -26,3 +26,4 @@ doc/api/
 # Local files
 .local/
 /pubspec.yaml
+pubspec_overrides.yaml
