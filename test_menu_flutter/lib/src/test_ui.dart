@@ -34,14 +34,17 @@ class DeclarerUi implements Declarer {
   }
 
   @override
-  void group(String name, void Function() body,
-      {String? testOn,
-      Timeout? timeout,
-      Object? skip,
-      Map<String, dynamic>? onPlatform,
-      Object? tags,
-      int? retry,
-      bool solo = false}) {
+  void group(
+    String name,
+    void Function() body, {
+    String? testOn,
+    Timeout? timeout,
+    Object? skip,
+    Map<String, dynamic>? onPlatform,
+    Object? tags,
+    int? retry,
+    bool solo = false,
+  }) {
     _log('group');
     impl.group(name, body, solo: solo);
   }
@@ -67,14 +70,17 @@ class DeclarerUi implements Declarer {
   }
 
   @override
-  void test(String name, Object? Function() body,
-      {String? testOn,
-      Timeout? timeout,
-      Object? skip,
-      Map<String, dynamic>? onPlatform,
-      Object? tags,
-      int? retry,
-      bool solo = false}) {
+  void test(
+    String name,
+    Object? Function() body, {
+    String? testOn,
+    Timeout? timeout,
+    Object? skip,
+    Map<String, dynamic>? onPlatform,
+    Object? tags,
+    int? retry,
+    bool solo = false,
+  }) {
     _log('test');
     // ignore: deprecated_member_use
     impl.test(name, body, solo: solo);

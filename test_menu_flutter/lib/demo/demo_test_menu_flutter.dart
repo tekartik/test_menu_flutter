@@ -7,12 +7,17 @@ import 'common_test_menu.dart' as common;
 void main() {
   menu('flutter', () {
     item('navigate', () {
-      Navigator.push(buildContext!,
-          MaterialPageRoute<void>(builder: (BuildContext context) {
-        return Scaffold(
-            appBar: AppBar(title: const Text('test')),
-            body: demoSimpleList(context));
-      }));
+      Navigator.push(
+        buildContext!,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) {
+            return Scaffold(
+              appBar: AppBar(title: const Text('test')),
+              body: demoSimpleList(context),
+            );
+          },
+        ),
+      );
     });
   });
   common.main();

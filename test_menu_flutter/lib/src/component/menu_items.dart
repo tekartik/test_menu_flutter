@@ -19,12 +19,13 @@ class MenuItems extends StatefulWidget {
   final void Function(BaseItem item) onPlayItem;
   final List<BaseItem?>? items;
 
-  const MenuItems(
-      {super.key,
-      this.title,
-      this.items,
-      required this.onTapItem,
-      required this.onPlayItem});
+  const MenuItems({
+    super.key,
+    this.title,
+    this.items,
+    required this.onTapItem,
+    required this.onPlayItem,
+  });
 
   final String? title;
 
@@ -186,7 +187,7 @@ class MenuItemsState extends State<MenuItems> {
       print('TEST Error $e running ${menu.name}');
       try {
         //print(st);
-/*        if (await Sqflite.getDebugModeOn()) {
+        /*        if (await Sqflite.getDebugModeOn()) {
     print(st);
     }
     */
@@ -218,7 +219,7 @@ class MenuItemsState extends State<MenuItems> {
       write('ERROR \'$e\' running ${item.name}');
       try {
         //print(st);
-/*        if (await Sqflite.getDebugModeOn()) {
+        /*        if (await Sqflite.getDebugModeOn()) {
     print(st);
     }
     */

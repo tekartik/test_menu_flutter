@@ -130,7 +130,7 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
     return null;
   }
 
-//  bool done = false;
+  //  bool done = false;
 
   @override
   void presentMenu(TestMenu menu) {
@@ -186,11 +186,13 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
   }
 }
 
-void initTestMenuFlutter(
-    {Widget Function(Widget child)? builder, bool? showConsole}) {
+void initTestMenuFlutter({
+  Widget Function(Widget child)? builder,
+  bool? showConsole,
+}) {
   //TestMenuManager.debug.on = true;
-  _testMenuManagerFlutter = _TestMenuManagerFlutter()
-    ..showConsole = showConsole == true;
+  _testMenuManagerFlutter =
+      _TestMenuManagerFlutter()..showConsole = showConsole == true;
   //_testMenuManagerFlutter.builder = builder;
 
   Widget app = const TestMenuApp();
@@ -212,22 +214,18 @@ void mainMenu(void Function() body, {bool? showConsole}) {
 /// Main menu for flutter
 void mainMenuFlutter(void Function() body, {bool? showConsole}) {
   initTestMenuFlutter(
-      builder: (Widget child) {
-        // _testMenuManagerFlutter.bodyBuilder = body;
-        return Builder(builder: (BuildContext context) {
+    builder: (Widget child) {
+      // _testMenuManagerFlutter.bodyBuilder = body;
+      return Builder(
+        builder: (BuildContext context) {
           // devPrint('Building tests');
           body();
           return child;
-        });
-        /*
-    if (builder != null) {
-      app = builder(app);
-    }
-    runApp(app);
-    body();
-    */
-      },
-      showConsole: showConsole);
+        },
+      );
+    },
+    showConsole: showConsole,
+  );
 }
 
 class TestMenuApp extends StatelessWidget {
@@ -312,9 +310,11 @@ class _RootMenuPageState extends State<RootMenuPage> {
                         controller: promptController,
                         autofocus: true,
                         decoration: InputDecoration(
-                            labelText: prompt.message, hintText: ''),
+                          labelText: prompt.message,
+                          hintText: '',
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 actions: <Widget>[
@@ -329,7 +329,7 @@ class _RootMenuPageState extends State<RootMenuPage> {
                       Navigator.pop(context, promptController.value.text);
                     },
                     child: const Text('OPEN'),
-                  )
+                  ),
                 ],
               );
             },
@@ -358,131 +358,153 @@ class _RootMenuPageState extends State<RootMenuPage> {
 
           scrollController!.addListener(onScroll);
         }
-        children2.add(Expanded(
+        children2.add(
+          Expanded(
             flex: 3,
             child: Container(
-                decoration: BoxDecoration(color: Colors.grey[900]),
-                child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SingleChildScrollView(
-                        controller: scrollController,
-                        reverse: true,
-                        child: ConstrainedBox(
-                            constraints:
-                                const BoxConstraints(minWidth: double.infinity),
-                            child: Wrap(children: <Widget>[
-                              Text(
-                                outputText,
-                                style: const TextStyle(
-                                    fontSize: 9.0, color: Colors.white70),
-                                //softWrap: true,
-                                textAlign: TextAlign.left,
-                                //overflow: TextOverflow.clip,
-                              )
-                            ])))))));
+              decoration: BoxDecoration(color: Colors.grey[900]),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  reverse: true,
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      minWidth: double.infinity,
+                    ),
+                    child: Wrap(
+                      children: <Widget>[
+                        Text(
+                          outputText,
+                          style: const TextStyle(
+                            fontSize: 9.0,
+                            color: Colors.white70,
+                          ),
+                          //softWrap: true,
+                          textAlign: TextAlign.left,
+                          //overflow: TextOverflow.clip,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
       } else {
         scrollController?.removeListener(onScroll);
         scrollController = null;
       }
-      children2.add(Expanded(
+      children2.add(
+        Expanded(
           flex: 5,
           child: MenuItems(
-              onPlayItem: (_) => _scrollToBottom(),
-              onTapItem: (_) => _scrollToBottom(),
-              items: List.generate(menu.items.length, (int index) {
-                var testItem = menu.items[index];
-                if (testItem is MenuTestItem) {
-                  return _testMenuManagerFlutter!.getTestItemMenu(testItem);
-                } else {
-                  // devPrint('creating test item ${testItem}');
-                  /*
+            onPlayItem: (_) => _scrollToBottom(),
+            onTapItem: (_) => _scrollToBottom(),
+            items: List.generate(menu.items.length, (int index) {
+              var testItem = menu.items[index];
+              if (testItem is MenuTestItem) {
+                return _testMenuManagerFlutter!.getTestItemMenu(testItem);
+              } else {
+                // devPrint('creating test item ${testItem}');
+                /*
               return new Item(testItem.name, () async {
                     devPrint('running $testItem');
                     await testMenuManager.runItem(testItem);
                     devPrint('done $testItem');
                   });*/
-                  return _testMenuManagerFlutter!.getTestItemItem(testItem);
-                  // return new Future.sync(item.run).then((_) {
-                  /*
+                return _testMenuManagerFlutter!.getTestItemItem(testItem);
+                // return new Future.sync(item.run).then((_) {
+                /*
         if (verbose) {
           print('$TAG done '$item'');
         }
         */
-                }
-              }))));
+              }
+            }),
+          ),
+        ),
+      );
       var column = Column(children: children2);
 
       var actions = <Widget>[];
       var showConsole = _testMenuManagerFlutter!.showConsole;
-      actions.add(IconButton(
-        icon: const Icon(Icons.play_arrow),
-        onPressed: () {
-          // devPrint('play');
-          runTests();
-        },
-        tooltip: 'Clear the output console',
-      ));
-      if (showConsole) {
-        actions.add(IconButton(
-          icon: const Icon(Icons.clear_all),
+      actions.add(
+        IconButton(
+          icon: const Icon(Icons.play_arrow),
           onPressed: () {
-            // devPrint('clear');
-            _testMenuManagerFlutter!.clear();
+            // devPrint('play');
+            runTests();
           },
           tooltip: 'Clear the output console',
-        ));
-        actions.add(IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () {
-            // devPrint('show');
-            _testMenuManagerFlutter!.show(false);
-          },
-          tooltip: 'Hide the output console',
-        ));
+        ),
+      );
+      if (showConsole) {
+        actions.add(
+          IconButton(
+            icon: const Icon(Icons.clear_all),
+            onPressed: () {
+              // devPrint('clear');
+              _testMenuManagerFlutter!.clear();
+            },
+            tooltip: 'Clear the output console',
+          ),
+        );
+        actions.add(
+          IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () {
+              // devPrint('show');
+              _testMenuManagerFlutter!.show(false);
+            },
+            tooltip: 'Hide the output console',
+          ),
+        );
       } else {
-        actions.add(IconButton(
-          icon: const Icon(Icons.show_chart),
-          onPressed: () {
-            // devPrint('show');
-            _testMenuManagerFlutter!.show(true);
-          },
-          tooltip: 'Show the output console',
-        ));
+        actions.add(
+          IconButton(
+            icon: const Icon(Icons.show_chart),
+            onPressed: () {
+              // devPrint('show');
+              _testMenuManagerFlutter!.show(true);
+            },
+            tooltip: 'Show the output console',
+          ),
+        );
       }
 
       var atRoot = menu.name == '_root_'; // TODO share constant
       return PopScope(
-          canPop: false,
-          // onWillPop: () async => true,
+        canPop: false,
 
-          onPopInvokedWithResult: (invoked, result) async {
-            if (invoked) {
-              return;
-            }
-            if (testMenuManager!.canPop()) {
-              await testMenuManager!.popMenu();
-              return;
-            }
-            if (testMenuManager!.activeMenu is RootTestMenu) {
-              // devPrint('atRoot');
-              /// Pop at root
-              Navigator.of(context).pop(result);
-            }
+        // onWillPop: () async => true,
+        onPopInvokedWithResult: (invoked, result) async {
+          if (invoked) {
             return;
-          },
-          child: Scaffold(
-              appBar: AppBar(
-                leading: atRoot ? null : const BackButton(),
-                title: Text(menu.name),
-                actions: actions,
-              ),
-              body: column));
+          }
+          if (testMenuManager!.canPop()) {
+            await testMenuManager!.popMenu();
+            return;
+          }
+          if (testMenuManager!.activeMenu is RootTestMenu) {
+            // devPrint('atRoot');
+            /// Pop at root
+            Navigator.of(context).pop(result);
+          }
+          return;
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            leading: atRoot ? null : const BackButton(),
+            title: Text(menu.name),
+            actions: actions,
+          ),
+          body: column,
+        ),
+      );
     }
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Not found'),
-      ),
-    );
+    return Scaffold(appBar: AppBar(title: const Text('Not found')));
   }
 
   void onScroll() {

@@ -36,30 +36,36 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
     }
     var widgets = <Widget>[
       IconButton(
-        icon: Icon(Icons.menu,
-            color: widget.menu.group ? Colors.black12 : Colors.grey),
+        icon: Icon(
+          Icons.menu,
+          color: widget.menu.group ? Colors.black12 : Colors.grey,
+        ),
 
         onPressed: null, // null disables the button
-      )
+      ),
     ];
     if (widget.menu.group) {
-      widgets.add(Padding(
+      widgets.add(
+        Padding(
           padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
           child: IconButton(
             icon: Icon(icon, color: color),
 
             onPressed: _onPlay, // null disables the button
-          )));
+          ),
+        ),
+      );
     }
     return ListTile(
-        leading: Stack(children: widgets),
-        title: Text(widget.menu.name),
-        /*
+      leading: Stack(children: widgets),
+      title: Text(widget.menu.name),
+      /*
         subtitle: widget.item?.description == null
             ? null
             : new Text(widget.item.description),
             */
-        onTap: _onTap);
+      onTap: _onTap,
+    );
   }
 
   void _onTap() {

@@ -10,5 +10,7 @@ Future main() async {
   } catch (_) {}
   //expect(Directory(dirName).existsSync(), isFalse);
   await gitGenerate(
-      dirName: dirName, appName: 'tekartik_test_menu_flutter_min_app');
+    dirName: dirName,
+    appName: 'tekartik_test_menu_flutter_min_app',
+  );
 }

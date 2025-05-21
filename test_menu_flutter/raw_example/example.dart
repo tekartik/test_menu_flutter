@@ -29,12 +29,17 @@ void main() {
       write('after sleep 2000');
     });
     item('navigate', () {
-      Navigator.push(buildContext!,
-          MaterialPageRoute<void>(builder: (BuildContext context) {
-        return Scaffold(
-            appBar: AppBar(title: const Text('test')),
-            body: demoSimpleList(context));
-      }));
+      Navigator.push(
+        buildContext!,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) {
+            return Scaffold(
+              appBar: AppBar(title: const Text('test')),
+              body: demoSimpleList(context),
+            );
+          },
+        ),
+      );
     });
   });
 }

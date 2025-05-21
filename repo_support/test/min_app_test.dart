@@ -13,12 +13,19 @@ void main() {
     () {
       test('fs_generate', () async {
         var dirName = join(
-            '.dart_tool', 'test_menu_flutter', 'test', 'app', 'gen_min_app');
+          '.dart_tool',
+          'test_menu_flutter',
+          'test',
+          'app',
+          'gen_min_app',
+        );
 
         var src = join('..', 'example', 'min_app');
         await fsGenerate(dir: dirName, src: src);
-        expect(await File(join(dirName, 'pubspec.yaml')).readAsString(),
-            await File(join(src, 'pubspec.yaml')).readAsString());
+        expect(
+          await File(join(dirName, 'pubspec.yaml')).readAsString(),
+          await File(join(src, 'pubspec.yaml')).readAsString(),
+        );
         var context = await flutterContext;
         if (context.supportsWeb!) {
           await Shell(workingDirectory: dirName).run('flutter build web');

@@ -34,13 +34,14 @@ class _ItemWidgetState extends State<ItemWidget> {
         break;
     }
     return ListTile(
-        leading: IconButton(
-          icon: Icon(icon, color: color),
+      leading: IconButton(
+        icon: Icon(icon, color: color),
 
-          onPressed: null, // null disables the button
-        ),
-        title: Text(widget.item.name),
-        onTap: _onTap);
+        onPressed: null, // null disables the button
+      ),
+      title: Text(widget.item.name),
+      onTap: _onTap,
+    );
   }
 
   void _onTap() {
