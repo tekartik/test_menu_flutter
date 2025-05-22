@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dev_build: ">=1.1.2"
+  dev_build: ">=1.1.2+11"
 
   tekartik_test_menu:
     git:
@@ -63,7 +63,8 @@ resolution: workspace
 # following page: https://www.dartlang.org/tools/pub/pubspec
 
 # The following section is specific to Flutter.
-# flutter:
+flutter:
+  uses-material-design: true
 
 # To add assets to your package, add an assets section, like this:
 # assets:

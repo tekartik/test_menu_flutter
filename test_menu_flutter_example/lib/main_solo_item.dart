@@ -1,12 +1,16 @@
+// ignore_for_file: avoid_print
+
 import 'package:tekartik_common_utils/common_utils_import.dart';
 import 'package:tekartik_test_menu_flutter/test.dart';
 
 Future<void> main() async {
+  print('main');
   mainMenuFlutter(appMainMenu, showConsole: true);
 }
 
 var _soloTestCount = 0;
 void appMainMenu() {
+  print('appMainMenu');
   enter(() async {
     //      await karReady;
   });

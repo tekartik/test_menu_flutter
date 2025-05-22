@@ -211,15 +211,19 @@ void mainMenu(void Function() body, {bool? showConsole}) {
   mainMenuFlutter(body, showConsole: showConsole);
 }
 
+var _mainMenuDone = false;
+
 /// Main menu for flutter
 void mainMenuFlutter(void Function() body, {bool? showConsole}) {
   initTestMenuFlutter(
     builder: (Widget child) {
-      // _testMenuManagerFlutter.bodyBuilder = body;
       return Builder(
-        builder: (BuildContext context) {
-          // devPrint('Building tests');
-          body();
+        builder: (_) {
+          /// Needed to avoid 2 calls on restart
+          if (!_mainMenuDone) {
+            _mainMenuDone = true;
+            body();
+          }
           return child;
         },
       );
