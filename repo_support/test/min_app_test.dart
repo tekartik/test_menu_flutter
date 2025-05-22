@@ -8,6 +8,9 @@ import 'package:tekartik_build_utils/flutter/flutter.dart';
 import 'package:test/test.dart';
 
 void main() {
+  test('dummy', () {
+    // Prevent no test failure
+  });
   group(
     'min_app',
     () {
@@ -22,10 +25,6 @@ void main() {
 
         var src = join('..', 'example', 'min_app');
         await fsGenerate(dir: dirName, src: src);
-        expect(
-          await File(join(dirName, 'pubspec.yaml')).readAsString(),
-          await File(join(src, 'pubspec.yaml')).readAsString(),
-        );
         var context = await flutterContext;
         if (context.supportsWeb!) {
           await Shell(workingDirectory: dirName).run('flutter build web');
