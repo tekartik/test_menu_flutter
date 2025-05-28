@@ -215,14 +215,10 @@ class MenuItemsState extends State<MenuItems> {
         item.state = ItemState.success;
         // devPrint('success item widget ${item}');
       });
-    } catch (e) {
+    } catch (e, st) {
       write('ERROR \'$e\' running ${item.name}');
       try {
-        //print(st);
-        /*        if (await Sqflite.getDebugModeOn()) {
-    print(st);
-    }
-    */
+        print(st);
       } finally {
         setState(() {
           item.state = ItemState.failure;

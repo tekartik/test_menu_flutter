@@ -22,6 +22,10 @@ void main() {
         write('ok');
         write('or no');
       });
+      item('throw', () {
+        write('throwing');
+        throw Exception('test exception');
+      });
     });
     item('root_item', () {
       write('from root item');
