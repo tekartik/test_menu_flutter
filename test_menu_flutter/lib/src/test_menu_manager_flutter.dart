@@ -191,8 +191,8 @@ void initTestMenuFlutter({
   bool? showConsole,
 }) {
   //TestMenuManager.debug.on = true;
-  _testMenuManagerFlutter =
-      _TestMenuManagerFlutter()..showConsole = showConsole == true;
+  _testMenuManagerFlutter = _TestMenuManagerFlutter()
+    ..showConsole = showConsole == true;
   //_testMenuManagerFlutter.builder = builder;
 
   Widget app = const TestMenuApp();
