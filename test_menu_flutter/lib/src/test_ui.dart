@@ -1,6 +1,7 @@
 // ignore_for_file: implementation_imports
 
 import 'package:tekartik_test_menu_flutter/test.dart' as impl;
+import 'package:test_api/backend.dart';
 import 'package:test_api/src/backend/configuration/timeout.dart';
 import 'package:test_api/src/backend/declarer.dart';
 import 'package:test_api/src/backend/group.dart';
@@ -37,6 +38,7 @@ class DeclarerUi implements Declarer {
   void group(
     String name,
     void Function() body, {
+    TestLocation? location,
     String? testOn,
     Timeout? timeout,
     Object? skip,
@@ -50,22 +52,22 @@ class DeclarerUi implements Declarer {
   }
 
   @override
-  void setUp(Object? Function() callback) {
+  void setUp(Object? Function() callback, {TestLocation? location}) {
     _log('setUp');
   }
 
   @override
-  void setUpAll(Object? Function() callback) {
+  void setUpAll(Object? Function() callback, {TestLocation? location}) {
     _log('setUpAll');
   }
 
   @override
-  void tearDown(Object? Function() callback) {
+  void tearDown(Object? Function() callback, {TestLocation? location}) {
     _log('tearDown');
   }
 
   @override
-  void tearDownAll(Object? Function() callback) {
+  void tearDownAll(Object? Function() callback, {TestLocation? location}) {
     _log('tearDownAll');
   }
 
@@ -73,6 +75,7 @@ class DeclarerUi implements Declarer {
   void test(
     String name,
     Object? Function() body, {
+    TestLocation? location,
     String? testOn,
     Timeout? timeout,
     Object? skip,
