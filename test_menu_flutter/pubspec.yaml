@@ -14,7 +14,6 @@ dependencies:
   tekartik_test_menu:
     git:
       url: https://github.com/tekartik/test_menu.dart
-      ref: dart3a
       path: test_menu
     version: '>=0.6.0'
   collection: ">=1.18.0"
@@ -22,13 +21,11 @@ dependencies:
   tekartik_lints:
     git:
       url: https://github.com/tekartik/common.dart
-      ref: dart3a
       path: packages/lints
     version: '>=0.2.0'
   dev_flutter_test:
     git:
       url: https://github.com/tekartik/dev_flutter_test
-      ref: dart3a
       path: dev_flutter_test
   test_api: any
 dev_dependencies:
@@ -37,20 +34,17 @@ dev_dependencies:
   tekartik_test_menu_io:
     git:
       url: https://github.com/tekartik/test_menu.dart
-      ref: dart3a
       path: test_menu_io
   process_run: ">=1.2.1+1"
   dev_test: ">=1.0.0+4"
   tekartik_lints_flutter:
     git:
       url: https://github.com/tekartik/common_flutter.dart
-      ref: dart3a
       path: packages/lints_flutter
 
   tekartik_common_utils:
     git:
       url: https://github.com/tekartik/common_utils.dart
-      ref: dart3a
 dependency_overrides:
 resolution: workspace
   # tekartik_test_menu:
