@@ -6,6 +6,10 @@ enable-beta-ecosystems: true
 
 updates:
   - package-ecosystem: "pub"
+    directory: "example/in_app"
+    schedule:
+      interval: "monthly"
+  - package-ecosystem: "pub"
     directory: "example/min_app"
     schedule:
       interval: "monthly"

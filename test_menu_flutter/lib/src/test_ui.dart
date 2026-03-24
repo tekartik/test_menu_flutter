@@ -29,7 +29,7 @@ class DeclarerUi implements Declarer {
   }
 
   @override
-  T declare<T>(T Function() body) {
+  T declare<T>(T Function() body, {Map<Symbol, Object?>? zoneValues}) {
     _log('declare');
     throw UnimplementedError();
   }
