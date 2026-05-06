@@ -10,9 +10,9 @@ export 'src/test_menu_manager_flutter.dart'
         mainMenu,
         mainMenuFlutter,
         initTestMenuFlutter,
-        // ignore: deprecated_member_use
+        // ignore: invalid_use_of_do_not_submit_member, deprecated_member_use
         solo_item,
-        // ignore: deprecated_member_use
+        // ignore: invalid_use_of_do_not_submit_member, deprecated_member_use
         solo_menu,
         item,
         command,

@@ -14,7 +14,7 @@ void appMainMenu() {
   enter(() async {
     //      await karReady;
   });
-  // ignore: deprecated_member_use
+  // ignore: invalid_use_of_do_not_submit_member, deprecated_member_use
   solo_item('some item', () async {
     var count = ++_soloTestCount;
     write('starting $count');
