@@ -21,5 +21,7 @@ export 'src/test_menu_manager_flutter.dart'
         leave,
         menu,
         write,
+        enterItem,
+        leaveItem,
         navigator,
         buildContext;
