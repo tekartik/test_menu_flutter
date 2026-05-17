@@ -6,7 +6,7 @@ void main() {
 
 var _soloTestCount = 0;
 void appMainMenu() {
-  // ignore: deprecated_member_use
+  // ignore: invalid_use_of_do_not_submit_member
   solo_test('some test', () {
     write('test ${++_soloTestCount}');
   });

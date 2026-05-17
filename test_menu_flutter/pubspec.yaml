@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  dev_build: ">=1.1.2+11"
+  dev_build: ">=1.1.7"
 
   tekartik_test_menu:
     git:
