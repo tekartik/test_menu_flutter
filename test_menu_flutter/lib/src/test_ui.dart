@@ -48,6 +48,7 @@ class DeclarerUi implements Declarer {
     bool solo = false,
   }) {
     _log('group');
+    // ignore: invalid_use_of_do_not_submit_member
     impl.group(name, body, solo: solo);
   }
 
@@ -85,7 +86,7 @@ class DeclarerUi implements Declarer {
     bool solo = false,
   }) {
     _log('test');
-    // ignore: deprecated_member_use
+    // ignore: invalid_use_of_do_not_submit_member
     impl.test(name, body, solo: solo);
   }
 }
