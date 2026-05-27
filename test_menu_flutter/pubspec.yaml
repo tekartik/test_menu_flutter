@@ -4,19 +4,19 @@ version: 1.0.0
 publish_to: none
 
 environment:
-  sdk: ^3.9.0
+  sdk: ^3.11.0
 
 dependencies:
   flutter:
     sdk: flutter
-  dev_build: ">=1.1.7+1"
+  dev_build: ">=1.1.7+3"
 
   tekartik_test_menu:
     git:
       url: https://github.com/tekartik/test_menu.dart
       path: test_menu
     version: '>=0.6.0'
-  collection: ">=1.18.0"
+  collection: ">=1.19.1"
   synchronized:
   tekartik_lints:
     git:

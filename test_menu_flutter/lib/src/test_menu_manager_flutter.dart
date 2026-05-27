@@ -156,6 +156,11 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
 
   @override
   void write(Object message) {
+    writeln(message);
+  }
+
+  @override
+  void writeln(Object message) {
     // ignore: avoid_print
     print('[o] $message');
     output.add('$message');
