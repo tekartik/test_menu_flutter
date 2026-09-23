@@ -5,7 +5,9 @@ description: >-
   tekartik_test_menu_flutter: mainMenuFlutter, initTestMenuFlutter, the
   declaration API menu/item/test/group/enter/leave/enterItem/leaveItem/command/
   write/prompt/showMenu/solo_item/solo_menu/expect/fail, the buildContext and
-  navigator globals to push a page from an item, showConsole, testUiFlutterMain
+  navigator globals to push a page from an item, showConsole, the console page
+  (command line, keypad, inline prompt, menu hide/height limit, theme saved
+  through a PrefsLight, prefs parameter), testUiFlutterMain
   from test_ui.dart to run package:test style declarations in the menu, the
   demo menus (demo/demo.dart demoSimpleList, demo/common_test_menu.dart,
   demo/demo_test_menu_flutter.dart), and the showMenu clash with
@@ -15,8 +17,9 @@ description: >-
 # Flutter test menu app (tekartik_test_menu_flutter)
 
 `tekartik_test_menu_flutter` turns a `tekartik_test_menu` declaration into a
-runnable Flutter app: a scrollable list of items and sub menus, an output
-console and a prompt dialog. It is the way to drive manual/device-only code
+runnable Flutter app: a console page (same design as the web test menu of
+`tekartik_test_menu_browser`) with the output log, the menu, a keypad and a
+command line. It is the way to drive manual/device-only code
 (plugins, auth, network, storage) by hand on a real device or emulator.
 
 ## Guidelines
@@ -62,9 +65,30 @@ console and a prompt dialog. It is the way to drive manual/device-only code
   `menu`/`item`/`test`/`group` from the callback passed to
   `mainMenuFlutter`, never from inside a running item — build a run-time menu
   with `await showMenu(() { ... })` instead.
-* `showConsole: true` shows the dark output panel where `write()`/`writeln()`
-  lands (it can be toggled and cleared from the app bar); with the default
-  `false` the output only shows while an item runs.
+* `showConsole` (default `true`) is the initial visibility of the output log
+  where `write()`/`writeln()` lands; it can be toggled in the menu layout
+  settings and cleared from the title bar.
+* The console page: title bar (back, status chip READY/RUNNING/INPUT/ERROR,
+  run the tests of the menu, hide/show the menu, menu layout settings, clear,
+  light/dark theme), clickable breadcrumb, recent items chips, output log
+  (item paths, `ERROR...` lines with a collapsible stack trace, prompts with
+  their answer, selectable text), the menu (item states: running, success,
+  failure; play button on group menus), a keypad and a command line taking
+  an item number or `cmd` shortcut, `-` or `.` to go back, `?` for help,
+  arrow up/down for the history and any other line for the menu `command`
+  handler.
+* `prompt()` is answered inline by the command line (no dialog): the prompt
+  shows in the output and the next submitted line, even empty, answers it.
+* Narrow screens (< 900 px) show the menu below the output, its height
+  limited by default to 40% of the area (bounded by 120 to 480 px, the menu
+  then scrolls); wide screens show it as a sidebar. The theme and the menu
+  layout are saved with a `PrefsLight` (`prefs:` parameter of
+  `mainMenuFlutter`/`initTestMenuFlutter`), `tekartik_prefs_flutter`
+  shared preferences by default, so the app gets the `shared_preferences`
+  plugin.
+* The tests of a `group` menu run when it is first displayed; the play
+  button of a group item runs all its tests (sub groups included) and writes
+  `SUCCESS tests x/y` or `ERROR tests x/y`.
 * Pushing a page from an item: the globals `buildContext` (the menu page
   context, nullable) and `navigator` (`Navigator.of(buildContext!)`) are
   exported for that, e.g.
@@ -89,8 +113,9 @@ console and a prompt dialog. It is the way to drive manual/device-only code
   Flutter entry point (this package) and a console entry point
   (`tekartik_test_menu_io`) call it. See the `tekartik-test-menu-tests` and
   `tekartik-test-menu-io-setup` skills.
-* Items catch what they throw: an exception or a `fail()` is printed in the
-  console and the menu stays usable, so a run never kills the app.
+* Items catch what they throw: an exception or a `fail()` is shown as an
+  error in the output, the item gets a failure mark and the menu stays
+  usable, so a run never kills the app.
 
 ## Examples
 
