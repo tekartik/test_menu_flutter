@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_test_menu_flutter/demo/demo.dart';
 import 'package:tekartik_test_menu_flutter/test_menu_flutter.dart';
 

@@ -3,7 +3,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' show Brightness, ThemeMode;
+import 'package:material_ui/material_ui.dart' show Brightness, ThemeMode;
 import 'package:tekartik_prefs_flutter/prefs_light.dart';
 import 'package:tekartik_test_menu/src/test_menu/test_menu.dart';
 import 'package:tekartik_test_menu/src/test_menu/test_menu_manager.dart';

@@ -1,6 +1,6 @@
 // ignore_for_file: implementation_imports
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_prefs_flutter/prefs_light.dart';
 import 'package:tekartik_test_menu/src/test_menu/test_menu.dart';
 import 'package:tekartik_test_menu/test_menu_presenter.dart';
