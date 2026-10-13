@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:dev_build/src/menu/menu_runner.dart';
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart' show Brightness, ThemeMode;
 import 'package:tekartik_prefs_flutter/prefs_light.dart';
@@ -356,15 +357,22 @@ class TestMenuConsole extends ChangeNotifier {
   }
 
   /// Ask for a text, answered by the next line of the command line.
-  Future<String> prompt(Object? message) {
+  ///
+  /// Prompts are answered in order: a prompt asked while another one is
+  /// pending waits for it to be answered.
+  Future<String> prompt(Object? message) async {
+    var pending = _promptCompleter;
+    while (pending != null) {
+      await pending.future;
+      pending = _promptCompleter;
+    }
     final text = '${message ?? 'Enter text'}';
-    _promptEntry?.waiting = false;
     final entry = TestMenuOutputEntry(TestMenuOutputKind.prompt, text)
       ..waiting = true;
     _promptEntry = entry;
     final completer = _promptCompleter = Completer<String>();
     _append(entry, follow: true);
-    return completer.future;
+    return await completer.future;
   }
 
   /// Called before an item is run.
@@ -581,7 +589,9 @@ class TestMenuConsole extends ChangeNotifier {
     }
   }
 
-  /// Run all the tests of a group menu item.
+  /// Run all the tests of a group menu item, with the hooks of the group
+  /// (and of its sub groups) as when entering it: `enter` first, `enterItem`
+  /// and `leaveItem` around each test, `leave` at the end.
   Future<void> runGroup(TestItem menuItem) async {
     if (menuItem is! MenuTestItem) {
       return;
@@ -595,27 +605,35 @@ class TestMenuConsole extends ChangeNotifier {
     );
     var count = 0;
     var successCount = 0;
-    Future<void> runMenu(TestMenu menu) async {
-      for (final item in menu.items) {
-        if (item is MenuTestItem) {
-          await runMenu(item.menu);
-        } else if (item is RunnableTestItem) {
-          count++;
-          final success = await _guard(() async {
-            try {
-              final result = item.fn();
-              if (result is Future) {
-                await result;
+    var hookFailed = false;
+    Future<void> runMenu(TestMenu menu, MenuRunner? parent) async {
+      // A menu of the stack is already entered, it is left when popped.
+      final active = _manager.menuRunners[menu];
+      final runner = active ?? MenuRunner(parent, menu);
+      if (active == null && !await _guard(runner.enter)) {
+        hookFailed = true;
+      } else {
+        for (final item in menu.items) {
+          if (item is MenuTestItem) {
+            await runMenu(item.menu, runner);
+          } else if (item is RunnableTestItem) {
+            count++;
+            final success = await _guard(() async {
+              await runner.runItemEnters();
+              try {
+                await runner.run(item);
+              } finally {
+                await runner.runItemLeaves();
               }
-            } catch (e) {
-              writeln('ERROR ${item.name}: $e');
-              rethrow;
+            }, item: item);
+            if (success) {
+              successCount++;
             }
-          }, item: item);
-          if (success) {
-            successCount++;
           }
         }
+      }
+      if (active == null && !await _guard(runner.leave)) {
+        hookFailed = true;
       }
     }
 
@@ -623,11 +641,11 @@ class TestMenuConsole extends ChangeNotifier {
     _states[menuItem] = TestMenuItemState.running;
     _notify();
     try {
-      await runMenu(menuItem.menu);
+      await runMenu(menuItem.menu, _manager.menuRunners[menuItem.parent]);
     } finally {
       _running.remove(menuItem);
     }
-    final success = successCount == count;
+    final success = successCount == count && !hookFailed;
     _states[menuItem] = success
         ? TestMenuItemState.success
         : TestMenuItemState.failure;

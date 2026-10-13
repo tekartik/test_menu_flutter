@@ -16,10 +16,17 @@ void _log(Object? message) {
   }
 }
 
+/// True if a `skip` parameter skips (a reason or true).
+bool _isSkipped(Object? skip) => skip != null && skip != false;
+
+/// Declares the package:test calls as menus and items: `setUpAll` and
+/// `tearDownAll` run when the group menu is entered and left, `setUp` and
+/// `tearDown` around each test, skipped tests and groups are not declared.
 class DeclarerUi implements Declarer {
   @override
   void addTearDownAll(Object? Function() callback) {
     _log('addTearDownAll');
+    impl.leave(callback);
   }
 
   @override
@@ -48,6 +55,10 @@ class DeclarerUi implements Declarer {
     bool solo = false,
   }) {
     _log('group');
+    if (_isSkipped(skip)) {
+      _log('skip group $name');
+      return;
+    }
     // ignore: invalid_use_of_do_not_submit_member
     impl.group(name, body, solo: solo);
   }
@@ -55,21 +66,25 @@ class DeclarerUi implements Declarer {
   @override
   void setUp(Object? Function() callback, {TestLocation? location}) {
     _log('setUp');
+    impl.enterItem(callback);
   }
 
   @override
   void setUpAll(Object? Function() callback, {TestLocation? location}) {
     _log('setUpAll');
+    impl.enter(callback);
   }
 
   @override
   void tearDown(Object? Function() callback, {TestLocation? location}) {
     _log('tearDown');
+    impl.leaveItem(callback);
   }
 
   @override
   void tearDownAll(Object? Function() callback, {TestLocation? location}) {
     _log('tearDownAll');
+    impl.leave(callback);
   }
 
   @override
@@ -86,6 +101,10 @@ class DeclarerUi implements Declarer {
     bool solo = false,
   }) {
     _log('test');
+    if (_isSkipped(skip)) {
+      _log('skip test $name');
+      return;
+    }
     // ignore: invalid_use_of_do_not_submit_member
     impl.test(name, body, solo: solo);
   }
