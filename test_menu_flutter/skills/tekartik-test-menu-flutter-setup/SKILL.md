@@ -10,8 +10,9 @@ description: >-
   through a PrefsLight, prefs parameter), testUiFlutterMain
   from test_ui.dart to run package:test style declarations in the menu, the
   demo menus (demo/demo.dart demoSimpleList, demo/common_test_menu.dart,
-  demo/demo_test_menu_flutter.dart), and the showMenu clash with
-  package:flutter/material.dart.
+  demo/demo_test_menu_flutter.dart), the showMenu clash with
+  package:flutter/material.dart, and driving the menu from an LLM agent
+  (app-agent MCP menu and menu_line tools, VM service or ?agent on the web).
 ---
 
 # Flutter test menu app (tekartik_test_menu_flutter)
@@ -66,17 +67,32 @@ command line. It is the way to drive manual/device-only code
   `mainMenuFlutter`, never from inside a running item — build a run-time menu
   with `await showMenu(() { ... })` instead.
 * `showConsole` (default `true`) is the initial visibility of the output log
-  where `write()`/`writeln()` lands; it can be toggled in the menu layout
-  settings and cleared from the title bar.
-* The console page: title bar (back, status chip READY/RUNNING/INPUT/ERROR,
-  run the tests of the menu, hide/show the menu, menu layout settings, clear,
-  light/dark theme), clickable breadcrumb, recent items chips, output log
+  where `write()`/`writeln()` lands; it can be toggled in the
+  settings and cleared from the header.
+* The console page fills the screen (no window frame), the same design as
+  the web test menu. One header row: the menu path (`test menu` for the root
+  menu, a parent goes back when tapped), the status (a dot when ready,
+  RUNNING, INPUT or ERROR otherwise), run the tests of the menu, hide/show
+  the menu, clear, settings (theme and menu layout). Then the output log
   (item paths, `ERROR...` lines with a collapsible stack trace, prompts with
-  their answer, selectable text), the menu (item states: running, success,
-  failure; play button on group menus), a keypad and a command line taking
-  an item number or `cmd` shortcut, `-` or `.` to go back, `?` for help,
-  arrow up/down for the history and any other line for the menu `command`
-  handler.
+  their answer, selectable text) and the menu (item states: running,
+  success, failure; play button on group menus). The footer holds the recent
+  items, a keypad (only when the menu is hidden) and the command line, with
+  history buttons, taking an item number or `cmd` shortcut, `-` or `.` to go
+  back, `?` for help, arrow up/down for the history and any other line for
+  the menu `command` handler.
+* Driven by an LLM agent: `initTestMenuFlutterConsole` (so `mainMenuFlutter`
+  too) calls `testMenuAgentInit` of tekartik_test_menu. The `app-agent` MCP
+  server then lists the `menu` (state, output) and `menu_line {line}` (a
+  line typed in the command line, prompt answers included) tools:
+  * a debug run: `flutter run`, then `app_connect {vmService: <the uri
+    printed>}`;
+  * the web: the app url with `?agent` (a release build too, no key for a
+    dev menu), `app_connect {open: <url>}`.
+
+  The screen follows what the agent does. An app already registering its
+  own agent commands (tekartik_app_agent `agentInit`) keeps them: call
+  `agentInit` first.
 * `prompt()` is answered inline by the command line (no dialog): the prompt
   shows in the output and the next submitted line, even empty, answers it.
 * Narrow screens (< 900 px) show the menu below the output, its height

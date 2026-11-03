@@ -80,7 +80,11 @@ void main() {
     await tm.testMenuRun();
     await tester.pumpWidget(const TestMenuApp());
 
-    expect(find.text('READY'), findsOneWidget);
+    expect(find.bySemanticsLabel('Status READY'), findsOneWidget);
+    // Ready is only a dot.
+    expect(find.text('READY'), findsNothing);
+    // The header path starts with the title, no window, no menu title.
+    expect(find.text('test menu'), findsOneWidget);
     expect(find.text('main ›'), findsOneWidget);
     expect(
       find.text('Output appears here. Pick an item, or type its number below.'),
@@ -91,6 +95,15 @@ void main() {
     await tester.pump();
     expect(find.text('write hi'), findsOneWidget);
     expect(find.text('exit'), findsOneWidget);
+    expect(find.text('main'), findsOneWidget);
+    // Back through the path.
+    await tester.tap(_tooltip('Back to test menu'));
+    await tester.pump();
+    expect(find.text('write hi'), findsNothing);
+    await console.processLine('0');
+    await tester.pump();
+    // The keypad repeats the menu, only shown when the menu is hidden.
+    expect(_tooltip('write hi'), findsNothing);
 
     await console.processLine('0');
     await console.processLine('s');
@@ -111,7 +124,7 @@ void main() {
     await tester.testTextInput.receiveAction(TextInputAction.send);
     await ask;
     await tester.pump();
-    expect(find.text('READY'), findsOneWidget);
+    expect(find.bySemanticsLabel('Status READY'), findsOneWidget);
     expect(find.text('↳  Alex'), findsOneWidget);
     expect(find.text('got Alex'), findsOneWidget);
 
@@ -143,13 +156,14 @@ void main() {
     await tester.tap(_tooltip('Hide menu'));
     await tester.pump();
     expect(find.text('write hi'), findsNothing);
+    expect(_tooltip('write hi'), findsOneWidget);
     expect((await prefs.getMap(_prefsMenuKey))?['hidden'], isTrue);
     await tester.tap(_tooltip('Show menu'));
     await tester.pump();
     expect(find.text('write hi'), findsOneWidget);
 
     // Settings, percent applied while typing.
-    await tester.tap(_tooltip('Menu layout'));
+    await tester.tap(_tooltip('Settings'));
     await tester.pump();
     expect(find.text('% of height'), findsOneWidget);
     await tester.enterText(

@@ -18,8 +18,6 @@ const _monospaceFallback = <String>[
 class TestMenuColors extends ThemeExtension<TestMenuColors> {
   /// Colors of the test menu console.
   const TestMenuColors({
-    required this.background,
-    required this.dot,
     required this.surface,
     required this.surface2,
     required this.surface3,
@@ -37,8 +35,6 @@ class TestMenuColors extends ThemeExtension<TestMenuColors> {
 
   /// Dark colors.
   static const dark = TestMenuColors(
-    background: Color(0xff0b0f14),
-    dot: Color(0x12ffffff),
     surface: Color(0xff0f141a),
     surface2: Color(0xff141a22),
     surface3: Color(0xff1b232e),
@@ -56,8 +52,6 @@ class TestMenuColors extends ThemeExtension<TestMenuColors> {
 
   /// Light colors.
   static const light = TestMenuColors(
-    background: Color(0xffeef1f5),
-    dot: Color(0x170f172a),
     surface: Color(0xffffffff),
     surface2: Color(0xfff6f8fa),
     surface3: Color(0xffeaeef2),
@@ -73,13 +67,7 @@ class TestMenuColors extends ThemeExtension<TestMenuColors> {
     purple: Color(0xff8250df),
   );
 
-  /// Page background.
-  final Color background;
-
-  /// Background dots.
-  final Color dot;
-
-  /// Window background.
+  /// Console background.
   final Color surface;
 
   /// Bars background.
@@ -124,8 +112,6 @@ class TestMenuColors extends ThemeExtension<TestMenuColors> {
 
   @override
   TestMenuColors copyWith({
-    Color? background,
-    Color? dot,
     Color? surface,
     Color? surface2,
     Color? surface3,
@@ -141,8 +127,6 @@ class TestMenuColors extends ThemeExtension<TestMenuColors> {
     Color? purple,
   }) {
     return TestMenuColors(
-      background: background ?? this.background,
-      dot: dot ?? this.dot,
       surface: surface ?? this.surface,
       surface2: surface2 ?? this.surface2,
       surface3: surface3 ?? this.surface3,
@@ -166,8 +150,6 @@ class TestMenuColors extends ThemeExtension<TestMenuColors> {
     }
     Color l(Color a, Color b) => Color.lerp(a, b, t)!;
     return TestMenuColors(
-      background: l(background, other.background),
-      dot: l(dot, other.dot),
       surface: l(surface, other.surface),
       surface2: l(surface2, other.surface2),
       surface3: l(surface3, other.surface3),
@@ -202,7 +184,7 @@ ThemeData testMenuConsoleThemeData(Brightness brightness) {
       onSurface: colors.text,
       error: colors.red,
     ),
-    scaffoldBackgroundColor: colors.background,
+    scaffoldBackgroundColor: colors.surface,
     fontFamily: 'monospace',
     fontFamilyFallback: _monospaceFallback,
     visualDensity: VisualDensity.compact,

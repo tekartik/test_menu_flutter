@@ -10,16 +10,13 @@ import 'package:tekartik_test_menu/src/test_menu/test_menu.dart';
 import 'console.dart';
 import 'console_theme.dart';
 
-/// Below this width the window is full bleed.
-const _framedMinWidth = 560.0;
-
 /// From this width the menu is a sidebar, below it is under the output.
 const _sidebarMinWidth = 900.0;
 
 /// Items offered on the keypad.
 const _maxKeyCount = 10;
 
-const _commandPlaceholder = 'Item # or command (? help)';
+const _commandPlaceholder = '# or command, ? help';
 
 TextStyle _mono(
   BuildContext context, {
@@ -53,7 +50,7 @@ class TestMenuConsolePage extends StatelessWidget {
   /// State and actions.
   final TestMenuConsole console;
 
-  /// Title bar text.
+  /// The name of the root menu in the header.
   final String title;
 
   @override
@@ -98,113 +95,22 @@ class _ConsoleScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = TestMenuColors.of(context);
+    // Fills the screen, no window frame: all the space goes to the console.
     return Scaffold(
-      backgroundColor: colors.background,
+      backgroundColor: colors.surface,
       body: DefaultTextStyle.merge(
         style: _mono(context),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final framed = constraints.maxWidth >= _framedMinWidth;
-            final window = _ConsoleWindow(
-              console: console,
-              title: title,
-              framed: framed,
-            );
-            if (!framed) {
-              return ColoredBox(
-                color: colors.surface,
-                child: SafeArea(child: window),
-              );
-            }
-            return CustomPaint(
-              painter: _DotsPainter(colors.dot),
-              child: SafeArea(
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 24,
-                    ),
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 1180),
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: colors.surface,
-                          border: Border.all(color: colors.border),
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(
-                                alpha:
-                                    Theme.of(context).brightness ==
-                                        Brightness.dark
-                                    ? 0.5
-                                    : 0.15,
-                              ),
-                              blurRadius: 60,
-                              spreadRadius: -24,
-                              offset: const Offset(0, 24),
-                            ),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(11),
-                          child: window,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
+        child: SafeArea(
+          child: Column(
+            children: [
+              _Header(console: console, title: title),
+              if (console.settingsOpen) _SettingsBar(console: console),
+              Expanded(child: _MainArea(console: console)),
+              _Footer(console: console),
+            ],
+          ),
         ),
       ),
-    );
-  }
-}
-
-class _DotsPainter extends CustomPainter {
-  _DotsPainter(this.color);
-
-  final Color color;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = color;
-    for (var y = 8.0; y < size.height; y += 16) {
-      for (var x = 8.0; x < size.width; x += 16) {
-        canvas.drawCircle(Offset(x, y), 1, paint);
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(_DotsPainter oldDelegate) => oldDelegate.color != color;
-}
-
-class _ConsoleWindow extends StatelessWidget {
-  const _ConsoleWindow({
-    required this.console,
-    required this.title,
-    required this.framed,
-  });
-
-  final TestMenuConsole console;
-  final String title;
-  final bool framed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _TitleBar(console: console, title: title, dots: framed),
-        if (console.settingsOpen) _SettingsBar(console: console),
-        _Crumbs(console: console),
-        if (console.recents.isNotEmpty) _Recents(console: console),
-        Expanded(child: _MainArea(console: console)),
-        _Footer(console: console),
-      ],
     );
   }
 }
@@ -222,69 +128,29 @@ BoxDecoration _barDecoration(
 }
 
 //
-// Title bar
+// Header: menu path, status and actions
 //
 
-class _TitleBar extends StatelessWidget {
-  const _TitleBar({
-    required this.console,
-    required this.title,
-    required this.dots,
-  });
+class _Header extends StatelessWidget {
+  const _Header({required this.console, required this.title});
 
   final TestMenuConsole console;
   final String title;
-  final bool dots;
 
   @override
   Widget build(BuildContext context) {
     final colors = TestMenuColors.of(context);
-    final brightness = Theme.of(context).brightness;
     final menuShown = !console.layout.menuHidden;
     return Container(
       decoration: _barDecoration(colors, color: colors.surface2),
-      padding: const EdgeInsets.fromLTRB(10, 6, 6, 6),
+      padding: const EdgeInsets.fromLTRB(10, 3, 4, 3),
       child: Row(
+        spacing: 2,
         children: [
-          if (dots) ...[
-            for (final color in const [
-              Color(0xffff5f57),
-              Color(0xfffebc2e),
-              Color(0xff28c840),
-            ])
-              Container(
-                width: 11,
-                height: 11,
-                margin: const EdgeInsets.only(right: 6),
-                decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-              ),
-            const SizedBox(width: 4),
-          ],
-          if (console.canPop)
-            _IconButton(
-              icon: Icons.arrow_back,
-              tooltip: 'Back',
-              onPressed: console.pop,
-            ),
           Expanded(
-            child: Row(
-              children: [
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Text(
-                      title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: _mono(context, fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 6),
-                _StatusChip(status: console.status),
-              ],
-            ),
+            child: _Crumbs(console: console, title: title),
           ),
+          _StatusChip(status: console.status),
           _IconButton(
             icon: Icons.play_arrow,
             tooltip: 'Run the tests of this menu',
@@ -298,26 +164,92 @@ class _TitleBar extends StatelessWidget {
                 console.layout = console.layout.copyWith(menuHidden: menuShown),
           ),
           _IconButton(
-            icon: Icons.tune,
-            tooltip: 'Menu layout',
-            active: console.settingsOpen,
-            onPressed: console.toggleSettings,
-          ),
-          _IconButton(
             icon: Icons.delete_outline,
             tooltip: 'Clear output',
             onPressed: console.clearOutput,
           ),
           _IconButton(
-            icon: brightness == Brightness.dark
-                ? Icons.light_mode_outlined
-                : Icons.dark_mode_outlined,
-            tooltip: brightness == Brightness.dark
-                ? 'Switch to light theme'
-                : 'Switch to dark theme',
-            onPressed: () => console.toggleTheme(brightness),
+            icon: Icons.tune,
+            tooltip: 'Settings',
+            active: console.settingsOpen,
+            onPressed: console.toggleSettings,
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// `title › main › sub`: the root menu shown as [title], the parent menus
+/// going back when tapped, the current one always visible (the parents
+/// scroll out on the left).
+class _Crumbs extends StatelessWidget {
+  const _Crumbs({required this.console, required this.title});
+
+  final TestMenuConsole console;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = TestMenuColors.of(context);
+    final names = [
+      if (console.displayedMenu == null)
+        title
+      else
+        for (final menu in console.stackMenus)
+          if (menu is RootTestMenu) title else menu.name,
+    ];
+    final children = <Widget>[];
+    for (var i = 0; i < names.length; i++) {
+      final depth = i;
+      final last = i == names.length - 1;
+      final name = names[i];
+      if (i > 0) {
+        children.add(
+          ExcludeSemantics(
+            child: Text('›', style: _mono(context, color: colors.faint)),
+          ),
+        );
+      }
+      final text = Text(
+        name,
+        maxLines: 1,
+        style: _mono(
+          context,
+          color: last ? colors.green : colors.text,
+          fontWeight: FontWeight.w700,
+        ),
+      );
+      children.add(
+        last
+            ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2),
+                child: text,
+              )
+            : Tooltip(
+                message: 'Back to $name',
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(4),
+                  onTap: () => console.popTo(depth),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
+                    child: text,
+                  ),
+                ),
+              ),
+      );
+    }
+    return Semantics(
+      container: true,
+      label: 'Menu path',
+      child: Align(
+        alignment: Alignment.centerLeft,
+        // Reversed: the end (the current menu) stays visible.
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          reverse: true,
+          child: Row(spacing: 4, children: children),
+        ),
       ),
     );
   }
@@ -416,10 +348,31 @@ class _StatusChipState extends State<_StatusChip>
       TestMenuStatus.input => (colors.accent, 'INPUT'),
       TestMenuStatus.error => (colors.red, 'ERROR'),
     };
+    final ready = widget.status == TestMenuStatus.ready;
+    final dot = Container(
+      width: 7,
+      height: 7,
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+    );
+    if (ready) {
+      // Only a dot, the label for screen readers.
+      return Semantics(
+        liveRegion: true,
+        label: 'Status $label',
+        child: Tooltip(
+          message: label,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: dot,
+          ),
+        ),
+      );
+    }
     return Semantics(
       liveRegion: true,
       label: 'Status $label',
       child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 4),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 1),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.12),
@@ -429,14 +382,7 @@ class _StatusChipState extends State<_StatusChip>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            FadeTransition(
-              opacity: _pulse,
-              child: Container(
-                width: 6,
-                height: 6,
-                decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-              ),
-            ),
+            FadeTransition(opacity: _pulse, child: dot),
             const SizedBox(width: 6),
             ExcludeSemantics(
               child: Text(
@@ -472,6 +418,7 @@ class _SettingsBar extends StatelessWidget {
     final layout = console.layout;
     final menuShown = !layout.menuHidden;
     final sizeEnabled = menuShown && layout.limitHeight;
+    final dark = Theme.of(context).brightness == Brightness.dark;
     void update(TestMenuLayout layout) => console.layout = layout;
 
     return LayoutBuilder(
@@ -484,6 +431,21 @@ class _SettingsBar extends StatelessWidget {
           runSpacing: 6,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
+            const _Label('THEME'),
+            _Chip(
+              tooltip: dark ? 'Switch to light theme' : 'Switch to dark theme',
+              onPressed: () => console.toggleTheme(
+                dark ? Brightness.dark : Brightness.light,
+              ),
+              children: [
+                Icon(
+                  dark ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
+                  size: 14,
+                  color: colors.text,
+                ),
+                Text(dark ? ' dark' : ' light'),
+              ],
+            ),
             const _Label('MENU'),
             _Check(
               label: 'show',
@@ -786,88 +748,8 @@ class _Chip extends StatelessWidget {
 }
 
 //
-// Breadcrumb and recent items
+// Recent items
 //
-
-/// `> _root_ > main`, the parent menus clickable if [console] is given.
-List<Widget> _menuPath(
-  BuildContext context,
-  List<TestMenu> stack, {
-  TestMenuConsole? console,
-  double fontSize = 12.5,
-}) {
-  final colors = TestMenuColors.of(context);
-  final widgets = <Widget>[];
-  for (var i = 0; i < stack.length; i++) {
-    final depth = i;
-    final last = i == stack.length - 1;
-    final name = stack[i].name;
-    widgets.add(
-      Text(
-        '>',
-        style: _mono(
-          context,
-          color: colors.accent,
-          fontSize: fontSize,
-          fontWeight: FontWeight.w700,
-        ),
-      ),
-    );
-    final style = _mono(
-      context,
-      color: last ? colors.green : colors.text,
-      fontSize: fontSize,
-      fontWeight: FontWeight.w700,
-    );
-    if (console == null || last) {
-      widgets.add(Text(name, style: style));
-    } else {
-      widgets.add(
-        Tooltip(
-          message: 'Back to $name',
-          child: InkWell(
-            borderRadius: BorderRadius.circular(4),
-            onTap: () => console.popTo(depth),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: Text(name, style: style),
-            ),
-          ),
-        ),
-      );
-    }
-  }
-  return widgets;
-}
-
-class _Crumbs extends StatelessWidget {
-  const _Crumbs({required this.console});
-
-  final TestMenuConsole console;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = TestMenuColors.of(context);
-    final stack = console.displayedMenu == null
-        ? const <TestMenu>[]
-        : console.stackMenus;
-    return Container(
-      width: double.infinity,
-      decoration: _barDecoration(colors),
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-      child: Semantics(
-        container: true,
-        label: 'Menu path',
-        child: Wrap(
-          spacing: 6,
-          runSpacing: 2,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: _menuPath(context, stack, console: console),
-        ),
-      ),
-    );
-  }
-}
 
 class _Recents extends StatelessWidget {
   const _Recents({required this.console});
@@ -877,12 +759,10 @@ class _Recents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = TestMenuColors.of(context);
-    return Container(
-      height: 36,
-      decoration: _barDecoration(colors),
+    return SizedBox(
+      height: 26,
       child: ListView(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
         children: [
           const Center(child: _Label('RECENT')),
           for (final item in console.recents) ...[
@@ -1254,15 +1134,8 @@ class _MenuView extends StatelessWidget {
     if (menu == null) {
       return const SizedBox.shrink();
     }
+    // No title, the header shows the menu path.
     final rows = <Widget>[
-      Padding(
-        padding: const EdgeInsets.only(bottom: 8),
-        child: Wrap(
-          spacing: 6,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: _menuPath(context, console.stackMenus, fontSize: 15),
-        ),
-      ),
       if (console.canPop)
         _MenuRow(
           keyText: '-',
@@ -1285,7 +1158,7 @@ class _MenuView extends StatelessWidget {
           : ListView(
               key: ObjectKey(menu),
               shrinkWrap: shrinkWrap,
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 14),
+              padding: const EdgeInsets.fromLTRB(6, 6, 6, 8),
               children: rows,
             ),
     );
@@ -1522,55 +1395,33 @@ class _FooterState extends State<_Footer> {
           onPressed: console.pop,
         ),
     ];
+    // The keypad repeats the menu, only shown when the menu is hidden.
+    final keypad = console.layout.menuHidden && console.outputVisible;
     return Container(
       decoration: _barDecoration(colors, top: true, color: colors.surface2),
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+      padding: const EdgeInsets.fromLTRB(8, 6, 8, 8),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        spacing: 8,
+        spacing: 6,
         children: [
+          if (console.recents.isNotEmpty) _Recents(console: console),
+          if (keypad && keys.isNotEmpty)
+            SizedBox(
+              height: 30,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  for (final key in keys)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 6),
+                      child: key,
+                    ),
+                ],
+              ),
+            ),
           Row(
+            spacing: 6,
             children: [
-              Expanded(
-                child: SizedBox(
-                  height: 30,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      for (final key in keys)
-                        Padding(
-                          padding: const EdgeInsets.only(right: 6),
-                          child: key,
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 6),
-              _Key(
-                icon: Icons.keyboard_arrow_up,
-                tooltip: 'Previous command',
-                onPressed: () => _history(-1),
-              ),
-              const SizedBox(width: 6),
-              _Key(
-                icon: Icons.keyboard_arrow_down,
-                tooltip: 'Next command',
-                onPressed: () => _history(1),
-              ),
-            ],
-          ),
-          Row(
-            spacing: 8,
-            children: [
-              Text(
-                '>',
-                style: _mono(
-                  context,
-                  color: lineColor,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
               Expanded(
                 child: CallbackShortcuts(
                   bindings: {
@@ -1613,6 +1464,16 @@ class _FooterState extends State<_Footer> {
                     onSubmitted: (_) => _submit(),
                   ),
                 ),
+              ),
+              _Key(
+                icon: Icons.keyboard_arrow_up,
+                tooltip: 'Previous command',
+                onPressed: () => _history(-1),
+              ),
+              _Key(
+                icon: Icons.keyboard_arrow_down,
+                tooltip: 'Next command',
+                onPressed: () => _history(1),
               ),
               SizedBox(
                 width: 40,

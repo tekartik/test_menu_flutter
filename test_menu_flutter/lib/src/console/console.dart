@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:dev_build/src/menu/menu_agent.dart' show menuAgentOutput;
 import 'package:dev_build/src/menu/menu_runner.dart';
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart' show Brightness, ThemeMode;
@@ -510,7 +511,10 @@ class TestMenuConsole extends ChangeNotifier {
       _lastRunFailed = true;
       _fixLastError(e);
       if (reportError) {
-        _appendError('ERROR $e\n$st', follow: true);
+        final text = 'ERROR $e\n$st';
+        _appendError(text, follow: true);
+        // Also seen by the menu agent.
+        menuAgentOutput(text);
       }
     } finally {
       _runningCount--;

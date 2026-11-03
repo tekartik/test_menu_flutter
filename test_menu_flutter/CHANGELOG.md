@@ -1,3 +1,15 @@
+## 1.2.0
+
+- The console fills the screen, as the web test menu: no window frame (no
+  dotted background, no title bar dots), one header row (menu path starting
+  with the title, status dot, run tests, hide menu, clear, settings), the
+  theme moved to the settings, no menu title, recent items in the footer,
+  keypad only shown when the menu is hidden, history buttons next to the
+  command line
+- An LLM agent can drive the menu (`app-agent` MCP `menu` and `menu_line`
+  tools): over the VM service of a debug run, and on the web with `?agent`
+- Requires dev_build 1.2.0 and tekartik_test_menu 0.8.1
+
 ## 1.1.0
 
 - New console page, same design and features as the web test menu

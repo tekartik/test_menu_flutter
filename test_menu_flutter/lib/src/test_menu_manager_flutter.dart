@@ -3,6 +3,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:tekartik_prefs_flutter/prefs_light.dart';
 import 'package:tekartik_test_menu/src/test_menu/test_menu.dart';
+import 'package:tekartik_test_menu/test_menu_agent.dart';
 import 'package:tekartik_test_menu/test_menu_presenter.dart';
 import 'package:tekartik_test_menu_flutter/src/console/console.dart';
 import 'package:tekartik_test_menu_flutter/src/console/console_page.dart';
@@ -16,7 +17,8 @@ export 'package:tekartik_test_menu/test_menu.dart';
 bool testMenuConsoleDebug = false;
 
 class _TestMenuManagerFlutter extends TestMenuPresenter
-    with TestMenuPresenterMixin {
+    with TestMenuPresenterMixin
+    implements MenuLineProcessor {
   _TestMenuManagerFlutter(this.console);
 
   final TestMenuConsole console;
@@ -50,10 +52,20 @@ class _TestMenuManagerFlutter extends TestMenuPresenter
   Future preProcessItem(TestItem item) async {
     console.preProcessItem(item);
   }
+
+  /// A line typed by the menu agent, as in the command line.
+  @override
+  Future<void> processLine(String line) => console.processLine(line);
 }
 
 /// Create the console and set it as the menu presenter, without running the
 /// app ([TestMenuApp] displays it).
+///
+/// An LLM agent can then drive the menu (`menu` and `menu_line` commands of
+/// the `app-agent` MCP server): over the VM service of a debug run, and on
+/// the web when the page url has `?agent` (`window.tekartikAgent`), see
+/// `testMenuAgentInit`. An app that already registered its own agent
+/// commands (tekartik_app_agent) keeps them.
 TestMenuConsole initTestMenuFlutterConsole({
   bool? showConsole,
   PrefsLight? prefs,
@@ -64,6 +76,7 @@ TestMenuConsole initTestMenuFlutterConsole({
   );
   final manager = _testMenuManagerFlutter = _TestMenuManagerFlutter(console);
   testMenuPresenter = manager;
+  testMenuAgentInit();
   unawaited(console.loadPrefs());
   return console;
 }
