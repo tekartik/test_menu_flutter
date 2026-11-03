@@ -1,7 +1,9 @@
 // ignore_for_file: implementation_imports
 
 import 'package:tekartik_test_menu_flutter/test.dart' as impl;
-import 'package:test_api/backend.dart';
+// Only what all the test_api versions export (0.7.14 adds Declarer and Group,
+// which would make the src imports below unnecessary there, not before).
+import 'package:test_api/backend.dart' show TestLocation;
 import 'package:test_api/src/backend/configuration/timeout.dart';
 import 'package:test_api/src/backend/declarer.dart';
 import 'package:test_api/src/backend/group.dart';
