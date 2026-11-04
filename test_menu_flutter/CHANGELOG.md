@@ -1,3 +1,12 @@
+## 1.3.0
+
+- `package:tekartik_test_menu_flutter/dev_test_menu.dart`:
+  `mainDevTestMenuFlutter(body)` shows unchanged `package:test` (or
+  flutter_test `test`/`group`) tests in the menu, run with test_api
+  (`expect`, `addTearDown`, timeouts, `skip`, `testOn`): a menu per group, an
+  item per test, `run all`, `rerun last`, `rerun failed`, `reset`; a group's
+  `setUpAll` runs once per session, its `tearDownAll` on reset
+
 ## 1.2.0
 
 - The console fills the screen, as the web test menu: no window frame (no
