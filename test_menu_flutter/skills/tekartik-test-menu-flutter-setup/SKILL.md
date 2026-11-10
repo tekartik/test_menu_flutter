@@ -7,9 +7,9 @@ description: >-
   write/prompt/showMenu/solo_item/solo_menu/expect/fail, the buildContext and
   navigator globals to push a page from an item, showConsole, the console page
   (command line, keypad, inline prompt, menu hide/height limit, theme saved
-  through a PrefsLight, prefs parameter), testUiFlutterMain
-  from test_ui.dart to run package:test style declarations in the menu, the
-  demo menus (demo/demo.dart demoSimpleList, demo/common_test_menu.dart,
+  through a PrefsLight, prefs parameter), mainDevTestMenuFlutter from
+  dev_test_menu.dart to run unchanged package:test files as a menu (and the
+  older testUiFlutterMain of test_ui.dart), the demo menus (demo/demo.dart demoSimpleList, demo/common_test_menu.dart,
   demo/demo_test_menu_flutter.dart), the showMenu clash with
   package:flutter/material.dart, and driving the menu from an LLM agent
   (app-agent MCP menu and menu_line tools, VM service or ?agent on the web).
@@ -32,7 +32,7 @@ command line. It is the way to drive manual/device-only code
       git:
         url: https://github.com/tekartik/test_menu_flutter
         path: test_menu_flutter
-      version: '>=0.2.5'
+      version: '>=1.3.0'
   ```
   Usually in a small companion app (`*_example`, `*_test_app`) or in
   `dev_dependencies` with a `lib/test_main.dart` entry point run by
@@ -49,7 +49,10 @@ command line. It is the way to drive manual/device-only code
     `leave`, `enterItem`, `leaveItem`, `write`, `showMenu`, `solo_item`,
     `solo_menu`, `navigator`, `buildContext`. `prompt`, `writeln`, `popMenu`,
     `test`, `group` and `expect` are *not* in it.
-  * `package:tekartik_test_menu_flutter/test_ui.dart`: `testUiFlutterMain`.
+  * `package:tekartik_test_menu_flutter/dev_test_menu.dart`:
+    `mainDevTestMenuFlutter` (unchanged test files as a menu).
+  * `package:tekartik_test_menu_flutter/test_ui.dart`: `testUiFlutterMain`
+    (older, see below).
   * `package:tekartik_test_menu_flutter/demo/demo.dart`:
     `demoSimpleList(context, [count])`, a throwaway `ListView` to push.
     `demo/common_test_menu.dart` and `demo/demo_test_menu_flutter.dart` each
@@ -117,13 +120,27 @@ command line. It is the way to drive manual/device-only code
   only that entry, for a fast loop; they are `@doNotSubmit`, so they need an
   `// ignore: invalid_use_of_do_not_submit_member` and must be removed before
   committing.
-* `testUiFlutterMain(body)` from `test_ui.dart` runs `body` in a zone whose
-  `package:test` declarer is replaced by the menu: a plain `test()`/`group()`
-  declaration library (shared with the real test suite) shows up as items and
-  sub menus. `setUp`/`tearDown`/`setUpAll`/`tearDownAll` in that body are
-  ignored. For a whole app built that way, `mainFlutterUiTest` from the
-  `dev_flutter_test` package (its `test_ui.dart`) does the same mapping with
-  `dev_test` declarations; see the `dev-flutter-test-setup` skill.
+* Unchanged `package:test` files (or flutter_test `test`/`group`, or
+  dev_test): `Future<void> main() => mainDevTestMenuFlutter(my_test.main);`
+  from `package:tekartik_test_menu_flutter/dev_test_menu.dart`. A menu per
+  group, an item per test, `run all` in every menu, `rerun last`, `rerun
+  failed` and `reset` at the root; the tests run with test_api (the real
+  `expect` and matchers, `setUp`/`tearDown` of every parent group,
+  `addTearDown`, timeouts, `skip`, `testOn`), a group's `setUpAll` once per
+  session (`reset` runs the `tearDownAll`). `testWidgets` is not supported.
+  `loadDevTestMenu`/`devTestMenu` put the same tree in your own menu.
+* `testUiFlutterMain(body)` from `test_ui.dart` is the older way: `body`
+  runs in a zone whose `package:test` declarer is the menu, so `test()` and
+  `group()` become items and sub menus, `setUpAll`/`tearDownAll` the group's
+  `enter`/`leave`, and `setUp`/`tearDown` run around each test as
+  package:test runs them (those of the parent groups too); skipped tests are
+  not declared, `testOn` and timeouts are ignored. The test bodies run as
+  plain items, without a test_api `Invoker`: the `expect` of `package:test`
+  or dev_test throws `OutsideTestException` there, even when it passes (the
+  menu's own `expect` of `test.dart` works). Prefer `mainDevTestMenuFlutter`.
+  `mainFlutterUiTest` of the `dev_flutter_test` package (its `test_ui.dart`)
+  maps `dev_test` declarations to the menu the same way; see the
+  `dev-flutter-test-setup` skill.
 * The menu itself is platform agnostic: keep the declaration in a shared
   library importing only `package:tekartik_test_menu/test.dart`, and have the
   Flutter entry point (this package) and a console entry point
@@ -242,29 +259,26 @@ void main() {
 }
 ```
 
-### Running a package:test declaration inside the menu
+### Running unchanged package:test declarations in the menu
 
 ```dart
-import 'package:dev_test/dev_test.dart' as dev_test;
-import 'package:tekartik_test_menu_flutter/test.dart';
-import 'package:tekartik_test_menu_flutter/test_ui.dart';
+// lib/dev_test_menu_main.dart: flutter run -t lib/dev_test_menu_main.dart
+import 'package:dev_test/test.dart';
+import 'package:tekartik_test_menu_flutter/dev_test_menu.dart';
 
 /// Normally in a library shared with the real test suite, declared with
 /// package:test (or dev_test/flutter_test) and used as is by `flutter test`.
 void testCommon() {
-  dev_test.group('common', () {
-    dev_test.test('expect', () {
-      dev_test.expect(1, 1);
+  group('common', () {
+    late List<int> list;
+    setUp(() => list = [1]);
+    test('expect', () {
+      expect(list, [1]);
     });
+    test('skipped', () {}, skip: 'not on a device');
   });
 }
 
-void main() {
-  mainMenuFlutter(() {
-    item('run the shared tests', () {
-      // group/test of the body become a sub menu and its items.
-      testUiFlutterMain(testCommon);
-    });
-  }, showConsole: true);
-}
+/// One item per test, run with test_api: `run all`, `rerun failed`...
+Future<void> main() => mainDevTestMenuFlutter(testCommon);
 ```
